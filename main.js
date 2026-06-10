@@ -2,6 +2,8 @@
 
 // ===== 設定 =====
 const TWITCH_WS_URL = 'wss://irc-ws.chat.twitch.tv:443';
+const TWITCH_CLIENT_ID = '1vbld5ti60dwqzmxrpfkcnk1oph5jd';
+const TWITCH_REDIRECT_URI = 'https://kawachan-jp.github.io/twitch-chat-translate/';
 const MAX_MESSAGES = 200;       // 画面に保持するメッセージ最大数
 const TRANSLATE_DELAY_MS = 100; // 翻訳リクエスト間の最小間隔(ms)
 const TRANSLATE_SKIP_PATTERNS = [
@@ -22,6 +24,27 @@ let autoScroll = true;
 let twitchUsername = '';
 let twitchToken = '';
 let isAuthenticated = false;
+
+// OAuthポップアップのコールバック検出（ポップアップ側で実行される）
+{
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  const oauthToken = hashParams.get('access_token');
+  if (oauthToken && window.opener) {
+    window.opener.postMessage({ type: 'twitch_auth', token: oauthToken }, window.location.origin);
+    window.close();
+  }
+}
+
+// sessionStorageからログイン状態を復元
+{
+  const savedToken = sessionStorage.getItem('twitch_token');
+  const savedUsername = sessionStorage.getItem('twitch_username');
+  if (savedToken && savedUsername) {
+    twitchToken = `oauth:${savedToken}`;
+    twitchUsername = savedUsername;
+    isAuthenticated = true;
+  }
+}
 
 // ===== DOM =====
 const setupScreen   = document.getElementById('setup-screen');
@@ -46,11 +69,10 @@ const experimentalToggle = document.getElementById('experimental-toggle');
 const chatInputArea      = document.getElementById('chat-input-area');
 const authPanel          = document.getElementById('auth-panel');
 const sendPanel          = document.getElementById('send-panel');
-const twitchUsernameInput = document.getElementById('twitch-username');
-const twitchTokenInput   = document.getElementById('twitch-token');
-const authBtn            = document.getElementById('auth-btn');
+const twitchLoginBtn     = document.getElementById('twitch-login-btn');
 const messageInput       = document.getElementById('message-input');
 const sendBtn            = document.getElementById('send-btn');
+const logoutBtn          = document.getElementById('logout-btn');
 
 // ===== 接続処理 =====
 connectBtn.addEventListener('click', () => {
@@ -103,32 +125,62 @@ chatContainer.addEventListener('scroll', () => {
 experimentalToggle.addEventListener('change', () => {
   if (experimentalToggle.checked) {
     chatInputArea.classList.remove('hidden');
+    if (isAuthenticated) {
+      authPanel.classList.add('hidden');
+      sendPanel.classList.remove('hidden');
+      sendPanel.querySelector('.send-user').textContent = twitchUsername;
+    }
   } else {
     chatInputArea.classList.add('hidden');
-    if (isAuthenticated) {
-      isAuthenticated = false;
-      twitchUsername = '';
-      twitchToken = '';
-      authPanel.classList.remove('hidden');
-      sendPanel.classList.add('hidden');
-      if (channel) { disconnect(); startChat(); }
-    }
   }
 });
 
-authBtn.addEventListener('click', () => {
-  const username = twitchUsernameInput.value.trim().toLowerCase();
-  const token = twitchTokenInput.value.trim();
-  if (!username || !token) return;
+twitchLoginBtn.addEventListener('click', () => {
+  const scope = 'chat:read chat:edit';
+  const url = `https://id.twitch.tv/oauth2/authorize?client_id=${TWITCH_CLIENT_ID}&redirect_uri=${encodeURIComponent(TWITCH_REDIRECT_URI)}&response_type=token&scope=${encodeURIComponent(scope)}`;
+  const popup = window.open(url, 'twitch-oauth', 'width=480,height=650,scrollbars=yes');
+  if (!popup) window.location.href = url;
+});
 
-  twitchUsername = username;
-  twitchToken = token.startsWith('oauth:') ? token : `oauth:${token}`;
-  isAuthenticated = true;
+window.addEventListener('message', (e) => {
+  if (e.data?.type === 'twitch_auth' && e.data.token) {
+    handleOAuthToken(e.data.token);
+  }
+});
 
-  authPanel.classList.add('hidden');
-  sendPanel.classList.remove('hidden');
-  sendPanel.querySelector('.send-user').textContent = twitchUsername;
+async function handleOAuthToken(rawToken) {
+  try {
+    const res = await fetch('https://api.twitch.tv/helix/users', {
+      headers: {
+        'Authorization': `Bearer ${rawToken}`,
+        'Client-Id': TWITCH_CLIENT_ID,
+      }
+    });
+    const data = await res.json();
+    twitchUsername = data.data[0].login;
+    twitchToken = `oauth:${rawToken}`;
+    isAuthenticated = true;
+    sessionStorage.setItem('twitch_token', rawToken);
+    sessionStorage.setItem('twitch_username', twitchUsername);
 
+    authPanel.classList.add('hidden');
+    sendPanel.classList.remove('hidden');
+    sendPanel.querySelector('.send-user').textContent = twitchUsername;
+
+    if (channel) { disconnect(); startChat(); }
+  } catch (e) {
+    addSystemMessage('Twitchログインに失敗しました。再度お試しください。');
+  }
+}
+
+logoutBtn.addEventListener('click', () => {
+  isAuthenticated = false;
+  twitchUsername = '';
+  twitchToken = '';
+  sessionStorage.removeItem('twitch_token');
+  sessionStorage.removeItem('twitch_username');
+  sendPanel.classList.add('hidden');
+  authPanel.classList.remove('hidden');
   if (channel) { disconnect(); startChat(); }
 });
 

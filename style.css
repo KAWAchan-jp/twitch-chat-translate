@@ -502,19 +502,21 @@ html, body {
 }
 .token-link:hover { text-decoration: underline; }
 
-.auth-btn {
-  padding: 6px 14px;
+.twitch-login-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
   background: var(--purple);
   color: #fff;
   border: none;
   border-radius: var(--radius);
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  white-space: nowrap;
 }
-.auth-btn:hover { background: #a855f7; }
+.twitch-login-btn:hover { background: #a855f7; }
 
 .send-panel {
   display: flex;
@@ -558,3 +560,16 @@ html, body {
 }
 .send-btn:hover { background: #a855f7; }
 .send-btn:active { transform: scale(0.97); }
+
+.logout-btn {
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
