@@ -5,9 +5,8 @@ const TWITCH_WS_URL = 'wss://irc-ws.chat.twitch.tv:443';
 const MAX_MESSAGES = 200;       // 画面に保持するメッセージ最大数
 const TRANSLATE_DELAY_MS = 100; // 翻訳リクエスト間の最小間隔(ms)
 const TRANSLATE_SKIP_PATTERNS = [
-  /^[!\/]/,                     // コマンド (!ban, /me など)
-  /^[\s\W]*$/,                  // 記号・空白のみ
-  /^[\u{1F000}-\u{1FFFF}]+$/u, // 絵文字のみ
+  /^[!\/]/,              // コマンド (!ban, /me など)
+  /^[^\p{L}\p{N}]+$/u,  // 文字・数字を含まない（記号・絵文字のみ）
 ];
 
 // ===== 状態 =====
