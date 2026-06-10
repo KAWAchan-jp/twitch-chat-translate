@@ -227,7 +227,7 @@ function addChatMessage(username, text, color) {
         translatedEl.textContent = text + '（翻訳失敗）';
         translatedEl.classList.remove('translating');
       })
-  );
+  ).catch(() => {});
 }
 
 function addSystemMessage(text) {
@@ -258,13 +258,19 @@ function scrollToBottom() {
 
 // ===== 翻訳 (Google翻訳 非公式API) =====
 async function translateText(text, from, to) {
-  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('translate failed');
-  const data = await res.json();
-  // レスポンス形式: [[["翻訳文", "原文", null, null, 1], ...], ...]
-  const translated = data[0]?.map(item => item[0]).filter(Boolean).join('') || text;
-  return translated;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error('translate failed');
+    const data = await res.json();
+    // レスポンス形式: [[["翻訳文", "原文", null, null, 1], ...], ...]
+    const translated = (data[0] ?? []).map(item => item?.[0]).filter(Boolean).join('') || text;
+    return translated;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 // ===== ユーティリティ =====
