@@ -445,3 +445,116 @@ html, body {
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
+
+/* ===== 実験的: 送信機能 ===== */
+.exp-badge {
+  background: var(--purple-dim);
+  color: #fff;
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: var(--font-ui);
+  vertical-align: middle;
+}
+
+.chat-input-area {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.auth-panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  flex-wrap: wrap;
+}
+
+.auth-hint {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.auth-panel input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  padding: 6px 10px;
+  outline: none;
+  flex: 1;
+  min-width: 120px;
+}
+
+.auth-panel input:focus { border-color: var(--purple); }
+
+.token-link {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--purple);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.token-link:hover { text-decoration: underline; }
+
+.auth-btn {
+  padding: 6px 14px;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.auth-btn:hover { background: #a855f7; }
+
+.send-panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+}
+
+.send-user {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--purple);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.send-panel input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-chat);
+  font-size: 13px;
+  padding: 8px 12px;
+  outline: none;
+}
+.send-panel input:focus { border-color: var(--purple); }
+
+.send-btn {
+  padding: 8px 16px;
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.send-btn:hover { background: #a855f7; }
+.send-btn:active { transform: scale(0.97); }

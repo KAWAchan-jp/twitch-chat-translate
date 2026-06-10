@@ -18,6 +18,11 @@ let messageCount = 0;
 let translateQueue = Promise.resolve();
 let autoScroll = true;
 
+// ===== 実験的: 送信機能 =====
+let twitchUsername = '';
+let twitchToken = '';
+let isAuthenticated = false;
+
 // ===== DOM =====
 const setupScreen   = document.getElementById('setup-screen');
 const chatScreen    = document.getElementById('chat-screen');
@@ -36,6 +41,16 @@ const queueInfo        = document.getElementById('translate-queue-info');
 const targetLangSelect = document.getElementById('target-lang-select');
 const headerSrcLang    = document.getElementById('header-src-lang');
 const headerTgtLang    = document.getElementById('header-tgt-lang');
+// 実験的機能
+const experimentalToggle = document.getElementById('experimental-toggle');
+const chatInputArea      = document.getElementById('chat-input-area');
+const authPanel          = document.getElementById('auth-panel');
+const sendPanel          = document.getElementById('send-panel');
+const twitchUsernameInput = document.getElementById('twitch-username');
+const twitchTokenInput   = document.getElementById('twitch-token');
+const authBtn            = document.getElementById('auth-btn');
+const messageInput       = document.getElementById('message-input');
+const sendBtn            = document.getElementById('send-btn');
 
 // ===== 接続処理 =====
 connectBtn.addEventListener('click', () => {
@@ -84,6 +99,58 @@ chatContainer.addEventListener('scroll', () => {
   }
 });
 
+// ===== 実験的: 送信機能 =====
+experimentalToggle.addEventListener('change', () => {
+  if (experimentalToggle.checked) {
+    chatInputArea.classList.remove('hidden');
+  } else {
+    chatInputArea.classList.add('hidden');
+    if (isAuthenticated) {
+      isAuthenticated = false;
+      twitchUsername = '';
+      twitchToken = '';
+      authPanel.classList.remove('hidden');
+      sendPanel.classList.add('hidden');
+      if (channel) { disconnect(); startChat(); }
+    }
+  }
+});
+
+authBtn.addEventListener('click', () => {
+  const username = twitchUsernameInput.value.trim().toLowerCase();
+  const token = twitchTokenInput.value.trim();
+  if (!username || !token) return;
+
+  twitchUsername = username;
+  twitchToken = token.startsWith('oauth:') ? token : `oauth:${token}`;
+  isAuthenticated = true;
+
+  authPanel.classList.add('hidden');
+  sendPanel.classList.remove('hidden');
+  sendPanel.querySelector('.send-user').textContent = twitchUsername;
+
+  if (channel) { disconnect(); startChat(); }
+});
+
+sendBtn.addEventListener('click', () => sendUserMessage());
+messageInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendUserMessage();
+});
+
+async function sendUserMessage() {
+  const text = messageInput.value.trim();
+  if (!text || !ws || !isAuthenticated) return;
+  messageInput.value = '';
+  messageInput.focus();
+
+  let sendText = text;
+  if (sourceLang !== 'auto') {
+    try { sendText = await translateText(text, 'auto', sourceLang); } catch (_) {}
+  }
+
+  ws.send(`PRIVMSG #${channel} :${sendText}`);
+}
+
 // ===== IRC / WebSocket =====
 function startChat() {
   setupScreen.classList.add('hidden');
@@ -99,8 +166,13 @@ function startChat() {
 
   ws.onopen = () => {
     ws.send('CAP REQ :twitch.tv/tags twitch.tv/commands');
-    ws.send('PASS oauth:will_not_actually_work');  // 匿名接続
-    ws.send('NICK justinfan' + Math.floor(Math.random() * 99999));
+    if (isAuthenticated) {
+      ws.send(`PASS ${twitchToken}`);
+      ws.send(`NICK ${twitchUsername}`);
+    } else {
+      ws.send('PASS oauth:will_not_actually_work');
+      ws.send('NICK justinfan' + Math.floor(Math.random() * 99999));
+    }
     ws.send(`JOIN #${channel}`);
   };
 
@@ -135,20 +207,17 @@ function showSetup() {
 }
 
 function handleIRCLine(line) {
-  // PING への応答
   if (line.startsWith('PING')) {
     ws.send('PONG :tmi.twitch.tv');
     return;
   }
 
-  // JOIN 成功
   if (line.includes(`JOIN #${channel}`)) {
     setStatus('connected');
-    addSystemMessage(`#${channel} に接続しました！`);
+    addSystemMessage(`#${channel} に接続しました！${isAuthenticated ? ' (送信機能 ON)' : ''}`);
     return;
   }
 
-  // PRIVMSG（チャットメッセージ）
   if (!line.includes('PRIVMSG')) return;
 
   const parsed = parseIRCMessage(line);
@@ -159,7 +228,6 @@ function handleIRCLine(line) {
 
 function parseIRCMessage(line) {
   try {
-    // IRCタグ付きフォーマット: @tags :nick!nick@nick.tmi.twitch.tv PRIVMSG #channel :message
     const tagMatch = line.match(/^@([^ ]+) :(\w+)!\w+@\S+ PRIVMSG #\w+ :(.+)$/);
     if (tagMatch) {
       const tags = parseTags(tagMatch[1]);
@@ -169,7 +237,6 @@ function parseIRCMessage(line) {
         color: tags['color'] || null,
       };
     }
-    // タグなしフォーマット
     const noTagMatch = line.match(/:(\w+)!\w+@\S+ PRIVMSG #\w+ :(.+)$/);
     if (noTagMatch) {
       return { username: noTagMatch[1], text: noTagMatch[2], color: null };
@@ -222,7 +289,6 @@ function addChatMessage(username, text, color) {
     return;
   }
 
-  // 翻訳キューに追加（並列リクエストを防ぐ）
   translateQueue = translateQueue.then(() =>
     sleep(TRANSLATE_DELAY_MS)
       .then(() => translateText(text, sourceLang, targetLang))
@@ -274,7 +340,6 @@ async function translateText(text, from, to) {
     const res = await fetch(url, { signal: controller.signal });
     if (!res.ok) throw new Error('translate failed');
     const data = await res.json();
-    // レスポンス形式: [[["翻訳文", "原文", null, null, 1], ...], ...]
     const translated = (data[0] ?? []).map(item => item?.[0]).filter(Boolean).join('') || text;
     return translated;
   } finally {

@@ -68,7 +68,7 @@
     </div>
     <button id="connect-btn" class="connect-btn">接続する</button>
     <p class="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.5</p>
+    <p class="version">v0.6</p>
   </div>
 </div>
 
@@ -126,6 +126,10 @@
         <input type="checkbox" id="auto-scroll" checked>
         <span>自動スクロール</span>
       </label>
+      <label class="toggle-label experimental-label">
+        <input type="checkbox" id="experimental-toggle">
+        <span>送信 <span class="exp-badge">実験的</span></span>
+      </label>
       <button id="disconnect-btn" class="disconnect-btn">切断</button>
     </div>
   </header>
@@ -135,6 +139,21 @@
   </div>
 
   <div id="translate-queue-info" class="queue-info hidden">翻訳中...</div>
+
+  <div id="chat-input-area" class="chat-input-area hidden">
+    <div id="auth-panel" class="auth-panel">
+      <span class="auth-hint">送信にはTwitch OAuthトークンが必要です</span>
+      <input type="text" id="twitch-username" placeholder="ユーザー名" autocomplete="off" spellcheck="false">
+      <input type="password" id="twitch-token" placeholder="oauth:xxxxxxxx">
+      <a href="https://twitchapps.com/tmi/" target="_blank" class="token-link">トークン取得</a>
+      <button id="auth-btn" class="auth-btn">認証</button>
+    </div>
+    <div id="send-panel" class="send-panel hidden">
+      <span class="send-user"></span>
+      <input type="text" id="message-input" placeholder="メッセージを入力（チャット言語に翻訳して送信）" autocomplete="off">
+      <button id="send-btn" class="send-btn">送信</button>
+    </div>
+  </div>
 </div>
 
 <script src="main.js"></script>
