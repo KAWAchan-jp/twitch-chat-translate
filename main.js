@@ -95,8 +95,14 @@ disconnectBtn.addEventListener('click', () => {
   showSetup();
 });
 
-headerSrcLang.addEventListener('change', () => { sourceLang = headerSrcLang.value; });
+headerSrcLang.addEventListener('change', () => { sourceLang = headerSrcLang.value; updateSendPlaceholder(); });
 headerTgtLang.addEventListener('change', () => { targetLang = headerTgtLang.value; });
+
+function updateSendPlaceholder() {
+  messageInput.placeholder = sourceLang === 'auto'
+    ? '⚠ 自動検出では翻訳できません。翻訳元言語を指定してください'
+    : 'メッセージを入力（チャット言語に翻訳して送信）';
+}
 
 autoScrollCb.addEventListener('change', () => {
   autoScroll = autoScrollCb.checked;
@@ -129,6 +135,7 @@ experimentalToggle.addEventListener('change', () => {
       authPanel.classList.add('hidden');
       sendPanel.classList.remove('hidden');
       sendPanel.querySelector('.send-user').textContent = twitchUsername;
+      updateSendPlaceholder();
     }
   } else {
     chatInputArea.classList.add('hidden');
@@ -166,6 +173,7 @@ async function handleOAuthToken(rawToken) {
     authPanel.classList.add('hidden');
     sendPanel.classList.remove('hidden');
     sendPanel.querySelector('.send-user').textContent = twitchUsername;
+    updateSendPlaceholder();
 
     if (channel) { disconnect(); startChat(); }
   } catch (e) {
