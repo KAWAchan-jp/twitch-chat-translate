@@ -30,10 +30,12 @@ const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
 const msgCountEl    = document.getElementById('msg-count');
 const disconnectBtn = document.getElementById('disconnect-btn');
-const showOrigCb      = document.getElementById('show-original');
-const autoScrollCb    = document.getElementById('auto-scroll');
-const queueInfo       = document.getElementById('translate-queue-info');
+const showOrigCb       = document.getElementById('show-original');
+const autoScrollCb     = document.getElementById('auto-scroll');
+const queueInfo        = document.getElementById('translate-queue-info');
 const targetLangSelect = document.getElementById('target-lang-select');
+const headerSrcLang    = document.getElementById('header-src-lang');
+const headerTgtLang    = document.getElementById('header-tgt-lang');
 
 // ===== 接続処理 =====
 connectBtn.addEventListener('click', () => {
@@ -42,6 +44,8 @@ connectBtn.addEventListener('click', () => {
   channel = raw;
   sourceLang = langSelect.value;
   targetLang = targetLangSelect.value;
+  headerSrcLang.value = sourceLang;
+  headerTgtLang.value = targetLang;
   startChat();
 });
 
@@ -53,6 +57,9 @@ disconnectBtn.addEventListener('click', () => {
   disconnect();
   showSetup();
 });
+
+headerSrcLang.addEventListener('change', () => { sourceLang = headerSrcLang.value; });
+headerTgtLang.addEventListener('change', () => { targetLang = headerTgtLang.value; });
 
 autoScrollCb.addEventListener('change', () => {
   autoScroll = autoScrollCb.checked;
