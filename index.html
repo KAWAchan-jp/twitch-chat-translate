@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Twitch Chat Translator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="setup-screen" class="setup-screen">
+  <div class="setup-card">
+    <div class="logo">
+      <span class="logo-icon">💬</span>
+      <h1>Twitch Chat Translator</h1>
+      <p class="subtitle">Twitchチャットをリアルタイム日本語翻訳</p>
+    </div>
+    <div class="input-group">
+      <label for="channel-input">チャンネル名</label>
+      <div class="input-row">
+        <span class="input-prefix">twitch.tv/</span>
+        <input type="text" id="channel-input" placeholder="xqc" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="input-group">
+      <label for="lang-select">翻訳元の言語</label>
+      <select id="lang-select">
+        <option value="en">英語 (English)</option>
+        <option value="ko">韓国語 (한국어)</option>
+        <option value="zh-CN">中国語簡体字</option>
+        <option value="zh-TW">中国語繁体字</option>
+        <option value="es">スペイン語</option>
+        <option value="fr">フランス語</option>
+        <option value="de">ドイツ語</option>
+        <option value="pt">ポルトガル語</option>
+        <option value="ru">ロシア語</option>
+      </select>
+    </div>
+    <button id="connect-btn" class="connect-btn">接続する</button>
+    <p class="note">※ APIキー不要・サーバー不要で動作します</p>
+  </div>
+</div>
+
+<div id="chat-screen" class="chat-screen hidden">
+  <header class="chat-header">
+    <div class="header-left">
+      <div id="status-dot" class="status-dot connecting"></div>
+      <span id="channel-name" class="channel-name"></span>
+    </div>
+    <div class="header-center">
+      <span id="msg-count" class="msg-count">0 メッセージ</span>
+    </div>
+    <div class="header-right">
+      <label class="toggle-label">
+        <input type="checkbox" id="show-original" checked>
+        <span>原文表示</span>
+      </label>
+      <label class="toggle-label">
+        <input type="checkbox" id="auto-scroll" checked>
+        <span>自動スクロール</span>
+      </label>
+      <button id="disconnect-btn" class="disconnect-btn">切断</button>
+    </div>
+  </header>
+
+  <div id="chat-container" class="chat-container">
+    <div id="chat-messages" class="chat-messages"></div>
+  </div>
+
+  <div id="translate-queue-info" class="queue-info hidden">翻訳中...</div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
