@@ -204,7 +204,7 @@ html, body {
   text-align: center;
   margin-top: 4px;
   font-size: 10px;
-  color: var(--border);
+  color: var(--text-muted);
   font-family: var(--font-ui);
   letter-spacing: 0.05em;
 }
