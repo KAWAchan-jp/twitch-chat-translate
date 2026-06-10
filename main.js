@@ -14,6 +14,7 @@ const TRANSLATE_SKIP_PATTERNS = [
 let ws = null;
 let channel = '';
 let sourceLang = 'en';
+let targetLang = 'ja';
 let messageCount = 0;
 let translateQueue = Promise.resolve();
 let autoScroll = true;
@@ -30,9 +31,10 @@ const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
 const msgCountEl    = document.getElementById('msg-count');
 const disconnectBtn = document.getElementById('disconnect-btn');
-const showOrigCb    = document.getElementById('show-original');
-const autoScrollCb  = document.getElementById('auto-scroll');
-const queueInfo     = document.getElementById('translate-queue-info');
+const showOrigCb      = document.getElementById('show-original');
+const autoScrollCb    = document.getElementById('auto-scroll');
+const queueInfo       = document.getElementById('translate-queue-info');
+const targetLangSelect = document.getElementById('target-lang-select');
 
 // ===== 接続処理 =====
 connectBtn.addEventListener('click', () => {
@@ -40,6 +42,7 @@ connectBtn.addEventListener('click', () => {
   if (!raw) { channelInput.focus(); return; }
   channel = raw;
   sourceLang = langSelect.value;
+  targetLang = targetLangSelect.value;
   startChat();
 });
 
@@ -216,7 +219,7 @@ function addChatMessage(username, text, color) {
   // 翻訳キューに追加（並列リクエストを防ぐ）
   translateQueue = translateQueue.then(() =>
     sleep(TRANSLATE_DELAY_MS)
-      .then(() => translateText(text, sourceLang, 'ja'))
+      .then(() => translateText(text, sourceLang, targetLang))
       .then(translated => {
         translatedEl.textContent = translated;
         translatedEl.classList.remove('translating');
