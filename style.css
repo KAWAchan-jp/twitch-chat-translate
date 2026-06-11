@@ -209,6 +209,17 @@ html, body {
   letter-spacing: 0.05em;
 }
 
+.repo-link {
+  display: block;
+  text-align: center;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  text-decoration: none;
+}
+.repo-link:hover { color: var(--purple); }
+
 /* ===== Chat Screen ===== */
 .chat-screen {
   display: flex;
