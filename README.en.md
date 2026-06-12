@@ -1,0 +1,122 @@
+# Twitch Chat Translator
+
+English | [日本語](README.md) | [Русский](README.ru.md)
+
+A web app that translates and displays Twitch chat in real time.
+
+**[▶ Use it now](https://kawachan-jp.github.io/twitch-chat-translate/)**
+
+---
+
+## Features
+
+- **No API key required** - Uses an unofficial Google Translate API, so you can start without signing up
+- **No server required** - Runs entirely in the browser and works on GitHub Pages
+- **Anonymous connection** - Reads Twitch chat without a Twitch account
+- **Automatic language detection** - Detects the source language automatically
+- **Multilingual support** - Supports 15+ languages
+- **Emote detection** - Automatically collapses repeated emote spam
+- **Font and size controls** - Adjust the chat display for readability
+- **Chat sending (experimental)** - Log in with Twitch and send translated chat messages
+
+---
+
+## How to Use
+
+### 1. Connect to a channel
+
+![Setup screen](docs/images/screenshot-setup.png)
+
+1. [Open the page](https://kawachan-jp.github.io/twitch-chat-translate/)
+2. Enter a channel name, for example `xqc`
+3. Select the **source language**. If you are not sure, leave it as "Auto Detect"
+4. Select the **target language**. The default is Japanese
+5. Click **Connect**
+
+### 2. Use the chat screen
+
+![Chat screen](docs/images/screenshot-chat.png)
+
+After connecting, you can change settings from the header.
+
+| Item | Description |
+|------|-------------|
+| `Auto → Japanese` | Switch the source and target languages in real time |
+| `S / M / L / XL` | Change the chat font size |
+| `⚙` | Open the advanced settings panel |
+| `Disconnect` | Disconnect from the channel and return to the top screen |
+
+### 3. Settings panel
+
+Click the **⚙ icon** in the header to open the settings panel.
+
+| Setting | Description |
+|---------|-------------|
+| Show original | Show or hide the original message before translation |
+| Auto scroll | Automatically scroll down when new messages arrive |
+| Send [experimental] | Show the chat sending panel. Twitch login is required |
+| Font | Switch between sans-serif, serif, and monospace fonts |
+
+---
+
+## Chat Sending (Experimental)
+
+![Send bar](docs/images/screenshot-send.png)
+
+After logging in with your Twitch account, you can translate and send chat messages.
+
+1. Turn on **Send [experimental]** in the settings panel
+2. Click **Log in with Twitch** and authorize the app
+3. Enter a message, then press `Enter` or click **Send**
+4. The input text is automatically translated into the **chat language** and sent
+
+> **Note:** If the source language is set to "Auto Detect", the message will be sent without translation. To translate before sending, manually choose the source language.
+
+---
+
+## Stamp / Emote Detection
+
+Messages where the same word appears three or more times in a row are treated as emote spam and collapsed without translation.
+
+```text
+🎴 Stamp  karubisUnun  ×4
+```
+
+---
+
+## Supported Languages
+
+| Source | Target |
+|--------|--------|
+| Auto Detect / English / Korean / Chinese (Simplified and Traditional)<br>Spanish / French / German / Portuguese<br>Russian / Japanese / Arabic / Hindi<br>Thai / Vietnamese / Indonesian | English / Korean / Chinese (Simplified and Traditional)<br>Spanish / French / German / Portuguese<br>Russian / **Japanese (default)** / Arabic<br>Hindi / Thai / Vietnamese / Indonesian |
+
+---
+
+## Requirements
+
+- Works in major browsers on desktop and mobile
+- Google Chrome / Microsoft Edge recommended
+
+---
+
+## Tech Stack
+
+- Twitch IRC over WebSocket (anonymous connection / OAuth authentication)
+- Unofficial Google Translate API (automatic language detection with `sl=auto`)
+- Twitch Helix API (fetches the logged-in username)
+- Plain HTML + CSS + JavaScript (no framework)
+
+---
+
+## Notes
+
+- The unofficial Google Translate API may change or stop working without notice
+- Translation may fall behind on channels with very active chat
+- The developer is not responsible for any damages caused by using this tool
+
+---
+
+## Related
+
+- [speech-to-text](https://github.com/KAWAchan-jp/speech-to-text) - A real-time speech recognition subtitle tool by the same author
+- [Twitch IRC Documentation](https://dev.twitch.tv/docs/irc/)

@@ -1,5 +1,7 @@
 # Twitch Chat Translator
 
+[English](README.en.md) | 日本語 | [Русский](README.ru.md)
+
 Twitchのチャット欄をリアルタイム翻訳して表示するWebアプリです。
 
 **[▶ 今すぐ使う](https://kawachan-jp.github.io/twitch-chat-translate/)**
