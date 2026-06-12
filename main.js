@@ -369,6 +369,13 @@ function addChatMessage(username, text, color) {
 
   const translatedEl = el.querySelector('.msg-translated');
 
+  const spam = detectEmoteSpam(text);
+  if (spam) {
+    translatedEl.innerHTML = `<span class="emote-badge">🎴 スタンプ</span> ${escapeHtml(spam.emote)} <span class="emote-count">×${spam.count}</span>`;
+    translatedEl.classList.remove('translating');
+    return;
+  }
+
   if (shouldSkipTranslation(text)) {
     translatedEl.textContent = text;
     translatedEl.classList.remove('translating');
@@ -401,6 +408,15 @@ function addSystemMessage(text) {
 
 function shouldSkipTranslation(text) {
   return TRANSLATE_SKIP_PATTERNS.some(p => p.test(text));
+}
+
+// 同じ単語が3回以上繰り返されていたらエモートスパムと判定
+function detectEmoteSpam(text) {
+  const words = text.trim().split(/\s+/);
+  if (words.length < 3) return null;
+  const first = words[0];
+  if (words.every(w => w === first)) return { emote: first, count: words.length };
+  return null;
 }
 
 function trimMessages() {
