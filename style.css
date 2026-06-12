@@ -18,6 +18,7 @@
   --radius-lg: 16px;
   --font-ui: 'Space Grotesk', sans-serif;
   --font-chat: 'Noto Sans JP', sans-serif;
+  --chat-font-size: 14px;
 }
 
 html, body {
@@ -288,7 +289,7 @@ html, body {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -335,6 +336,31 @@ html, body {
 .header-lang-arrow {
   color: var(--text-muted);
   font-size: 11px;
+}
+
+.font-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.font-controls select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+#font-family-select { max-width: 74px; }
+#font-size-select   { max-width: 46px; }
+
+.font-controls select:focus {
+  border-color: var(--purple);
 }
 
 .disconnect-btn {
@@ -411,7 +437,7 @@ html, body {
 }
 
 .msg-original {
-  font-size: 12px;
+  font-size: calc(var(--chat-font-size) - 2px);
   color: var(--text-muted);
   line-height: 1.4;
   margin-bottom: 3px;
@@ -421,7 +447,8 @@ html, body {
 .msg-original.hidden-orig { display: none; }
 
 .msg-translated {
-  font-size: 14px;
+  font-size: var(--chat-font-size);
+  font-family: var(--font-chat);
   color: var(--text);
   line-height: 1.6;
 }

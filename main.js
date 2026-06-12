@@ -64,6 +64,8 @@ const queueInfo        = document.getElementById('translate-queue-info');
 const targetLangSelect = document.getElementById('target-lang-select');
 const headerSrcLang    = document.getElementById('header-src-lang');
 const headerTgtLang    = document.getElementById('header-tgt-lang');
+const fontFamilySelect = document.getElementById('font-family-select');
+const fontSizeSelect   = document.getElementById('font-size-select');
 // 実験的機能
 const experimentalToggle = document.getElementById('experimental-toggle');
 const chatInputArea      = document.getElementById('chat-input-area');
@@ -97,6 +99,13 @@ disconnectBtn.addEventListener('click', () => {
 
 headerSrcLang.addEventListener('change', () => { sourceLang = headerSrcLang.value; updateSendPlaceholder(); });
 headerTgtLang.addEventListener('change', () => { targetLang = headerTgtLang.value; });
+
+fontFamilySelect.addEventListener('change', () => {
+  document.documentElement.style.setProperty('--font-chat', fontFamilySelect.value);
+});
+fontSizeSelect.addEventListener('change', () => {
+  document.documentElement.style.setProperty('--chat-font-size', fontSizeSelect.value);
+});
 
 function updateSendPlaceholder() {
   messageInput.placeholder = sourceLang === 'auto'

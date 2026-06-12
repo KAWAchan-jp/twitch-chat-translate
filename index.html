@@ -6,7 +6,7 @@
   <title>Twitch Chat Translator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=0.8.5">
+  <link rel="stylesheet" href="style.css?v=0.8.6">
 </head>
 <body>
 
@@ -70,7 +70,7 @@
     </div>
     <button id="connect-btn" class="connect-btn">接続する</button>
     <p class="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.8.5</p>
+    <p class="version">v0.8.6</p>
     <a href="https://github.com/KAWAchan-jp/twitch-chat-translate" target="_blank" class="repo-link">GitHub</a>
   </div>
 </div>
@@ -135,6 +135,19 @@
         <input type="checkbox" id="experimental-toggle">
         <span>送信 <span class="exp-badge">実験的</span></span>
       </label>
+      <div class="font-controls">
+        <select id="font-family-select">
+          <option value="'Noto Sans JP', sans-serif">ゴシック</option>
+          <option value="serif">明朝</option>
+          <option value="monospace">等幅</option>
+        </select>
+        <select id="font-size-select">
+          <option value="12px">S</option>
+          <option value="14px" selected>M</option>
+          <option value="17px">L</option>
+          <option value="21px">XL</option>
+        </select>
+      </div>
       <button id="disconnect-btn" class="disconnect-btn">切断</button>
     </div>
   </header>
@@ -161,6 +174,6 @@
   </div>
 </div>
 
-<script src="main.js?v=0.8.5"></script>
+<script src="main.js?v=0.8.6"></script>
 </body>
 </html>
