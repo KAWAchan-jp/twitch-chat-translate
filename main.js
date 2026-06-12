@@ -64,8 +64,10 @@ const queueInfo        = document.getElementById('translate-queue-info');
 const targetLangSelect = document.getElementById('target-lang-select');
 const headerSrcLang    = document.getElementById('header-src-lang');
 const headerTgtLang    = document.getElementById('header-tgt-lang');
-const fontFamilySelect = document.getElementById('font-family-select');
-const fontSizeSelect   = document.getElementById('font-size-select');
+const fontFamilySelect  = document.getElementById('font-family-select');
+const fontSizeSelect    = document.getElementById('font-size-select');
+const settingsBtn       = document.getElementById('settings-btn');
+const settingsDropdown  = document.getElementById('settings-dropdown');
 // 実験的機能
 const experimentalToggle = document.getElementById('experimental-toggle');
 const chatInputArea      = document.getElementById('chat-input-area');
@@ -105,6 +107,21 @@ fontFamilySelect.addEventListener('change', () => {
 });
 fontSizeSelect.addEventListener('change', () => {
   document.documentElement.style.setProperty('--chat-font-size', fontSizeSelect.value);
+});
+
+settingsBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = !settingsDropdown.classList.contains('hidden');
+  settingsDropdown.classList.toggle('hidden', open);
+  settingsBtn.classList.toggle('active', !open);
+});
+
+document.addEventListener('click', (e) => {
+  if (!settingsDropdown.classList.contains('hidden') &&
+      !settingsDropdown.contains(e.target)) {
+    settingsDropdown.classList.add('hidden');
+    settingsBtn.classList.remove('active');
+  }
 });
 
 function updateSendPlaceholder() {
