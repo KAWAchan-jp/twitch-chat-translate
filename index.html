@@ -6,19 +6,37 @@
   <title>Twitch Chat Translator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=0.8.12">
+  <link rel="stylesheet" href="style.css?v=0.8.13">
 </head>
 <body>
 
 <div id="setup-screen" class="setup-screen">
   <div class="setup-card">
+
+    <div class="ui-lang-row">
+      <span class="ui-lang-label" data-i18n="uiLangLabel">メニュー言語</span>
+      <select class="ui-lang-select" id="ui-lang-select">
+        <option value="ja">日本語</option>
+        <option value="en">English</option>
+        <option value="ko">한국어</option>
+        <option value="zh-CN">中文（简体）</option>
+        <option value="zh-TW">中文（繁體）</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+        <option value="ru">Русский</option>
+        <option value="id">Bahasa Indonesia</option>
+      </select>
+    </div>
+
     <div class="logo">
       <span class="logo-icon">💬</span>
       <h1>Twitch Chat Translator</h1>
-      <p class="subtitle">Twitchチャットをリアルタイム日本語翻訳</p>
+      <p class="subtitle" data-i18n="subtitle">Twitchチャットをリアルタイム日本語翻訳</p>
     </div>
     <div class="input-group">
-      <label for="channel-input">チャンネル名</label>
+      <label for="channel-input" data-i18n="channelLabel">チャンネル名</label>
       <div class="input-row">
         <span class="input-prefix">twitch.tv/</span>
         <input type="text" id="channel-input" placeholder="xqc" autocomplete="off" spellcheck="false">
@@ -26,51 +44,51 @@
     </div>
     <div class="input-group lang-row">
       <div class="lang-col">
-        <label for="lang-select">翻訳元</label>
+        <label for="lang-select" data-i18n="srcLangLabel">翻訳元</label>
         <select id="lang-select">
           <option value="auto">自動検出</option>
-          <option value="en">英語</option>
-          <option value="ko">韓国語</option>
-          <option value="zh-CN">中国語簡体字</option>
-          <option value="zh-TW">中国語繁体字</option>
-          <option value="es">スペイン語</option>
-          <option value="fr">フランス語</option>
-          <option value="de">ドイツ語</option>
-          <option value="pt">ポルトガル語</option>
-          <option value="ru">ロシア語</option>
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="zh-CN">中文（简体）</option>
+          <option value="zh-TW">中文（繁體）</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
           <option value="ja">日本語</option>
-          <option value="ar">アラビア語</option>
-          <option value="hi">ヒンディー語</option>
-          <option value="th">タイ語</option>
-          <option value="vi">ベトナム語</option>
-          <option value="id">インドネシア語</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिंदी</option>
+          <option value="th">ภาษาไทย</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="id">Bahasa Indonesia</option>
         </select>
       </div>
       <span class="lang-arrow">→</span>
       <div class="lang-col">
-        <label for="target-lang-select">翻訳先</label>
+        <label for="target-lang-select" data-i18n="tgtLangLabel">翻訳先</label>
         <select id="target-lang-select">
           <option value="ja">日本語</option>
-          <option value="en">英語</option>
-          <option value="ko">韓国語</option>
-          <option value="zh-CN">中国語簡体字</option>
-          <option value="zh-TW">中国語繁体字</option>
-          <option value="es">スペイン語</option>
-          <option value="fr">フランス語</option>
-          <option value="de">ドイツ語</option>
-          <option value="pt">ポルトガル語</option>
-          <option value="ru">ロシア語</option>
-          <option value="ar">アラビア語</option>
-          <option value="hi">ヒンディー語</option>
-          <option value="th">タイ語</option>
-          <option value="vi">ベトナム語</option>
-          <option value="id">インドネシア語</option>
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="zh-CN">中文（简体）</option>
+          <option value="zh-TW">中文（繁體）</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिंदी</option>
+          <option value="th">ภาษาไทย</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="id">Bahasa Indonesia</option>
         </select>
       </div>
     </div>
-    <button id="connect-btn" class="connect-btn">接続する</button>
-    <p class="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.8.12</p>
+    <button id="connect-btn" class="connect-btn" data-i18n="connectBtn">接続する</button>
+    <p class="note" data-i18n="note">※ APIキー不要・サーバー不要で動作します</p>
+    <p class="version">v0.8.13</p>
     <a href="https://github.com/KAWAchan-jp/twitch-chat-translate" target="_blank" class="repo-link">GitHub</a>
   </div>
 </div>
@@ -82,45 +100,45 @@
       <span id="channel-name" class="channel-name"></span>
     </div>
     <div class="header-center">
-      <span id="msg-count" class="msg-count">0 メッセージ</span>
+      <span id="msg-count" class="msg-count">0</span>
     </div>
     <div class="header-right">
       <div class="header-langs">
         <select id="header-src-lang">
-          <option value="auto">自動</option>
-          <option value="en">英語</option>
-          <option value="ko">韓国語</option>
-          <option value="zh-CN">中国語簡体字</option>
-          <option value="zh-TW">中国語繁体字</option>
-          <option value="es">スペイン語</option>
-          <option value="fr">フランス語</option>
-          <option value="de">ドイツ語</option>
-          <option value="pt">ポルトガル語</option>
-          <option value="ru">ロシア語</option>
+          <option value="auto">自動検出</option>
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="zh-CN">中文（简体）</option>
+          <option value="zh-TW">中文（繁體）</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
           <option value="ja">日本語</option>
-          <option value="ar">アラビア語</option>
-          <option value="hi">ヒンディー語</option>
-          <option value="th">タイ語</option>
-          <option value="vi">ベトナム語</option>
-          <option value="id">インドネシア語</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिंदी</option>
+          <option value="th">ภาษาไทย</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="id">Bahasa Indonesia</option>
         </select>
         <span class="header-lang-arrow">→</span>
         <select id="header-tgt-lang">
           <option value="ja">日本語</option>
-          <option value="en">英語</option>
-          <option value="ko">韓国語</option>
-          <option value="zh-CN">中国語簡体字</option>
-          <option value="zh-TW">中国語繁体字</option>
-          <option value="es">スペイン語</option>
-          <option value="fr">フランス語</option>
-          <option value="de">ドイツ語</option>
-          <option value="pt">ポルトガル語</option>
-          <option value="ru">ロシア語</option>
-          <option value="ar">アラビア語</option>
-          <option value="hi">ヒンディー語</option>
-          <option value="th">タイ語</option>
-          <option value="vi">ベトナム語</option>
-          <option value="id">インドネシア語</option>
+          <option value="en">English</option>
+          <option value="ko">한국어</option>
+          <option value="zh-CN">中文（简体）</option>
+          <option value="zh-TW">中文（繁體）</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
+          <option value="ar">العربية</option>
+          <option value="hi">हिंदी</option>
+          <option value="th">ภาษาไทย</option>
+          <option value="vi">Tiếng Việt</option>
+          <option value="id">Bahasa Indonesia</option>
         </select>
       </div>
       <select id="font-size-select" class="header-size-select">
@@ -130,7 +148,7 @@
         <option value="21px">XL</option>
       </select>
       <div class="settings-wrap">
-        <button id="settings-btn" class="settings-btn" title="設定">
+        <button id="settings-btn" class="settings-btn" title="Settings">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
@@ -138,27 +156,43 @@
         <div id="settings-dropdown" class="settings-dropdown hidden">
           <label class="setting-row">
             <input type="checkbox" id="show-original" checked>
-            <span>原文表示</span>
+            <span data-i18n="showOrig">原文表示</span>
           </label>
           <label class="setting-row">
             <input type="checkbox" id="auto-scroll" checked>
-            <span>自動スクロール</span>
+            <span data-i18n="autoScroll">自動スクロール</span>
           </label>
           <label class="setting-row">
             <input type="checkbox" id="experimental-toggle">
-            <span>送信 <span class="exp-badge">実験的</span></span>
+            <span><span data-i18n="sendFeature">送信</span> <span class="exp-badge" data-i18n="experimental">実験的</span></span>
           </label>
           <div class="setting-row setting-row-select">
-            <span>フォント</span>
+            <span data-i18n="fontLabel">フォント</span>
             <select id="font-family-select">
-              <option value="'Noto Sans JP', sans-serif">ゴシック</option>
-              <option value="serif">明朝</option>
-              <option value="monospace">等幅</option>
+              <option value="'Noto Sans JP', sans-serif">Gothic</option>
+              <option value="serif">Serif</option>
+              <option value="monospace">Mono</option>
+            </select>
+          </div>
+          <div class="setting-row setting-row-select">
+            <span data-i18n="uiLangLabel">メニュー言語</span>
+            <select class="ui-lang-select" id="ui-lang-select-chat">
+              <option value="ja">日本語</option>
+              <option value="en">English</option>
+              <option value="ko">한국어</option>
+              <option value="zh-CN">中文（简体）</option>
+              <option value="zh-TW">中文（繁體）</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="pt">Português</option>
+              <option value="ru">Русский</option>
+              <option value="id">Bahasa Indonesia</option>
             </select>
           </div>
         </div>
       </div>
-      <button id="disconnect-btn" class="disconnect-btn">切断</button>
+      <button id="disconnect-btn" class="disconnect-btn" data-i18n="disconnect">切断</button>
     </div>
   </header>
 
@@ -172,18 +206,18 @@
     <div id="auth-panel" class="auth-panel">
       <button id="twitch-login-btn" class="twitch-login-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-        Twitchでログイン
+        <span data-i18n="twitchLogin">Twitchでログイン</span>
       </button>
     </div>
     <div id="send-panel" class="send-panel hidden">
       <span class="send-user"></span>
-      <input type="text" id="message-input" placeholder="メッセージを入力（チャット言語に翻訳して送信）" autocomplete="off">
-      <button id="send-btn" class="send-btn">送信</button>
-      <button id="logout-btn" class="logout-btn">ログアウト</button>
+      <input type="text" id="message-input" data-i18n-placeholder="sendPlaceholder" placeholder="メッセージを入力（チャット言語に翻訳して送信）" autocomplete="off">
+      <button id="send-btn" class="send-btn" data-i18n="sendBtn">送信</button>
+      <button id="logout-btn" class="logout-btn" data-i18n="logout">ログアウト</button>
     </div>
   </div>
 </div>
 
-<script type="module" src="main.js?v=0.8.12"></script>
+<script type="module" src="main.js?v=0.8.13"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js';
 import { state } from './state.js';
 import { escapeHtml, sleep } from './utils.js';
 import { translateText, shouldSkipTranslation, detectEmoteSpam } from './translate.js';
+import { t } from './i18n.js';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
@@ -22,7 +23,7 @@ export function addChatMessage(username, text, color) {
       <span class="msg-time">${time}</span>
     </div>
     <div class="msg-original${showOrigCb.checked ? '' : ' hidden-orig'}">${escapeHtml(text)}</div>
-    <div class="msg-translated translating">翻訳中...</div>
+    <div class="msg-translated translating">${t('translating')}</div>
   `;
 
   chatMessages.appendChild(el);
@@ -56,7 +57,7 @@ export function addChatMessage(username, text, color) {
         if (state.autoScroll) scrollToBottom();
       })
       .catch(() => {
-        translatedEl.textContent = text + '（翻訳失敗）';
+        translatedEl.textContent = text + t('translateFail');
         translatedEl.classList.remove('translating');
       })
   ).catch(() => {});
@@ -77,7 +78,8 @@ export function trimMessages() {
 }
 
 export function updateMsgCount() {
-  msgCountEl.textContent = `${state.messageCount} メッセージ`;
+  msgCountEl.dataset.count = state.messageCount;
+  msgCountEl.textContent = t('msgCount', state.messageCount);
 }
 
 export function scrollToBottom() {

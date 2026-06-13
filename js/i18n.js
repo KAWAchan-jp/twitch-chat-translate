@@ -1,0 +1,399 @@
+const T = {
+  ja: {
+    subtitle: 'Twitchチャットをリアルタイム翻訳',
+    channelLabel: 'チャンネル名',
+    srcLangLabel: '翻訳元',
+    tgtLangLabel: '翻訳先',
+    connectBtn: '接続する',
+    note: '※ APIキー不要・サーバー不要で動作します',
+    disconnect: '切断',
+    showOrig: '原文表示',
+    autoScroll: '自動スクロール',
+    sendFeature: '送信',
+    experimental: '実験的',
+    fontLabel: 'フォント',
+    uiLangLabel: 'メニュー言語',
+    twitchLogin: 'Twitchでログイン',
+    sendBtn: '送信',
+    logout: 'ログアウト',
+    auto: '自動検出',
+    connecting:     (ch)       => `#${ch} に接続中...`,
+    connected:      (ch, auth) => `#${ch} に接続しました！${auth ? ' (送信機能 ON)' : ''}`,
+    connError:      '接続エラーが発生しました。チャンネル名を確認してください。',
+    disconnected:   '接続が切断されました。',
+    translating:    '翻訳中...',
+    translateFail:  '（翻訳失敗）',
+    loginFail:      'Twitchログインに失敗しました。再度お試しください。',
+    sendPlaceholder:     'メッセージを入力（チャット言語に翻訳して送信）',
+    sendPlaceholderAuto: '⚠ 自動検出では翻訳できません。翻訳元言語を指定してください',
+    msgCount: (n) => `${n} メッセージ`,
+  },
+  en: {
+    subtitle: 'Real-time translation for Twitch chat',
+    channelLabel: 'Channel Name',
+    srcLangLabel: 'Source Language',
+    tgtLangLabel: 'Target Language',
+    connectBtn: 'Connect',
+    note: '※ No API key needed — runs entirely in your browser',
+    disconnect: 'Disconnect',
+    showOrig: 'Show Original',
+    autoScroll: 'Auto Scroll',
+    sendFeature: 'Send',
+    experimental: 'Experimental',
+    fontLabel: 'Font',
+    uiLangLabel: 'UI Language',
+    twitchLogin: 'Login with Twitch',
+    sendBtn: 'Send',
+    logout: 'Logout',
+    auto: 'Auto Detect',
+    connecting:     (ch)       => `Connecting to #${ch}...`,
+    connected:      (ch, auth) => `Connected to #${ch}!${auth ? ' (Send enabled)' : ''}`,
+    connError:      'Connection error. Please check the channel name.',
+    disconnected:   'Disconnected.',
+    translating:    'Translating...',
+    translateFail:  ' (translation failed)',
+    loginFail:      'Twitch login failed. Please try again.',
+    sendPlaceholder:     'Type a message (auto-translated to chat language)',
+    sendPlaceholderAuto: '⚠ Cannot translate in auto-detect mode. Please select a source language.',
+    msgCount: (n) => `${n} message${n !== 1 ? 's' : ''}`,
+  },
+  ko: {
+    subtitle: 'Twitch 채팅 실시간 번역',
+    channelLabel: '채널 이름',
+    srcLangLabel: '원본 언어',
+    tgtLangLabel: '번역 언어',
+    connectBtn: '연결',
+    note: '※ API 키 불필요, 브라우저에서 완전히 실행',
+    disconnect: '연결 해제',
+    showOrig: '원문 표시',
+    autoScroll: '자동 스크롤',
+    sendFeature: '전송',
+    experimental: '실험적',
+    fontLabel: '폰트',
+    uiLangLabel: 'UI 언어',
+    twitchLogin: 'Twitch로 로그인',
+    sendBtn: '전송',
+    logout: '로그아웃',
+    auto: '자동 감지',
+    connecting:     (ch)       => `#${ch} 에 연결 중...`,
+    connected:      (ch, auth) => `#${ch} 에 연결되었습니다!${auth ? ' (전송 활성화)' : ''}`,
+    connError:      '연결 오류. 채널 이름을 확인하세요.',
+    disconnected:   '연결이 끊어졌습니다.',
+    translating:    '번역 중...',
+    translateFail:  ' (번역 실패)',
+    loginFail:      'Twitch 로그인 실패. 다시 시도해 주세요.',
+    sendPlaceholder:     '메시지 입력 (채팅 언어로 자동 번역)',
+    sendPlaceholderAuto: '⚠ 자동 감지에서는 번역이 불가능합니다. 원본 언어를 선택하세요.',
+    msgCount: (n) => `메시지 ${n}개`,
+  },
+  'zh-CN': {
+    subtitle: 'Twitch 聊天实时翻译',
+    channelLabel: '频道名称',
+    srcLangLabel: '源语言',
+    tgtLangLabel: '目标语言',
+    connectBtn: '连接',
+    note: '※ 无需 API 密钥，完全在浏览器中运行',
+    disconnect: '断开',
+    showOrig: '显示原文',
+    autoScroll: '自动滚动',
+    sendFeature: '发送',
+    experimental: '实验性',
+    fontLabel: '字体',
+    uiLangLabel: '界面语言',
+    twitchLogin: '使用 Twitch 登录',
+    sendBtn: '发送',
+    logout: '退出登录',
+    auto: '自动检测',
+    connecting:     (ch)       => `正在连接 #${ch}...`,
+    connected:      (ch, auth) => `已连接到 #${ch}！${auth ? ' (发送功能已启用)' : ''}`,
+    connError:      '连接错误，请检查频道名称。',
+    disconnected:   '连接已断开。',
+    translating:    '翻译中...',
+    translateFail:  '（翻译失败）',
+    loginFail:      'Twitch 登录失败，请重试。',
+    sendPlaceholder:     '输入消息（自动翻译为聊天语言发送）',
+    sendPlaceholderAuto: '⚠ 自动检测模式下无法翻译，请选择源语言。',
+    msgCount: (n) => `${n} 条消息`,
+  },
+  'zh-TW': {
+    subtitle: 'Twitch 聊天即時翻譯',
+    channelLabel: '頻道名稱',
+    srcLangLabel: '來源語言',
+    tgtLangLabel: '目標語言',
+    connectBtn: '連線',
+    note: '※ 無需 API 金鑰，完全在瀏覽器中執行',
+    disconnect: '中斷連線',
+    showOrig: '顯示原文',
+    autoScroll: '自動捲動',
+    sendFeature: '傳送',
+    experimental: '實驗性',
+    fontLabel: '字型',
+    uiLangLabel: '介面語言',
+    twitchLogin: '使用 Twitch 登入',
+    sendBtn: '傳送',
+    logout: '登出',
+    auto: '自動偵測',
+    connecting:     (ch)       => `正在連線至 #${ch}...`,
+    connected:      (ch, auth) => `已連線至 #${ch}！${auth ? ' (傳送功能已啟用)' : ''}`,
+    connError:      '連線錯誤，請確認頻道名稱。',
+    disconnected:   '連線已中斷。',
+    translating:    '翻譯中...',
+    translateFail:  '（翻譯失敗）',
+    loginFail:      'Twitch 登入失敗，請重試。',
+    sendPlaceholder:     '輸入訊息（自動翻譯為聊天語言傳送）',
+    sendPlaceholderAuto: '⚠ 自動偵測模式下無法翻譯，請選擇來源語言。',
+    msgCount: (n) => `${n} 則訊息`,
+  },
+  es: {
+    subtitle: 'Traducción en tiempo real del chat de Twitch',
+    channelLabel: 'Nombre del canal',
+    srcLangLabel: 'Idioma de origen',
+    tgtLangLabel: 'Idioma de destino',
+    connectBtn: 'Conectar',
+    note: '※ Sin clave API, funciona completamente en el navegador',
+    disconnect: 'Desconectar',
+    showOrig: 'Mostrar original',
+    autoScroll: 'Despl. automático',
+    sendFeature: 'Enviar',
+    experimental: 'Experimental',
+    fontLabel: 'Fuente',
+    uiLangLabel: 'Idioma de la UI',
+    twitchLogin: 'Iniciar sesión con Twitch',
+    sendBtn: 'Enviar',
+    logout: 'Cerrar sesión',
+    auto: 'Detección automática',
+    connecting:     (ch)       => `Conectando a #${ch}...`,
+    connected:      (ch, auth) => `¡Conectado a #${ch}!${auth ? ' (Envío activado)' : ''}`,
+    connError:      'Error de conexión. Verifica el nombre del canal.',
+    disconnected:   'Desconectado.',
+    translating:    'Traduciendo...',
+    translateFail:  ' (error de traducción)',
+    loginFail:      'Error al iniciar sesión en Twitch. Inténtalo de nuevo.',
+    sendPlaceholder:     'Escribe un mensaje (se traducirá al idioma del chat)',
+    sendPlaceholderAuto: '⚠ No se puede traducir en modo automático. Selecciona un idioma de origen.',
+    msgCount: (n) => `${n} mensaje${n !== 1 ? 's' : ''}`,
+  },
+  fr: {
+    subtitle: 'Traduction en temps réel du chat Twitch',
+    channelLabel: 'Nom de la chaîne',
+    srcLangLabel: 'Langue source',
+    tgtLangLabel: 'Langue cible',
+    connectBtn: 'Connecter',
+    note: '※ Sans clé API, fonctionne entièrement dans le navigateur',
+    disconnect: 'Déconnecter',
+    showOrig: "Afficher l'original",
+    autoScroll: 'Défilement auto',
+    sendFeature: 'Envoyer',
+    experimental: 'Expérimental',
+    fontLabel: 'Police',
+    uiLangLabel: "Langue de l'UI",
+    twitchLogin: 'Se connecter avec Twitch',
+    sendBtn: 'Envoyer',
+    logout: 'Se déconnecter',
+    auto: 'Détection auto',
+    connecting:     (ch)       => `Connexion à #${ch}...`,
+    connected:      (ch, auth) => `Connecté à #${ch} !${auth ? ' (Envoi activé)' : ''}`,
+    connError:      'Erreur de connexion. Vérifiez le nom de la chaîne.',
+    disconnected:   'Déconnecté.',
+    translating:    'Traduction...',
+    translateFail:  ' (échec de traduction)',
+    loginFail:      'Échec de connexion Twitch. Veuillez réessayer.',
+    sendPlaceholder:     'Saisissez un message (traduit automatiquement)',
+    sendPlaceholderAuto: '⚠ Impossible de traduire en mode de détection auto.',
+    msgCount: (n) => `${n} message${n !== 1 ? 's' : ''}`,
+  },
+  de: {
+    subtitle: 'Echtzeit-Übersetzung für Twitch-Chat',
+    channelLabel: 'Kanalname',
+    srcLangLabel: 'Ausgangssprache',
+    tgtLangLabel: 'Zielsprache',
+    connectBtn: 'Verbinden',
+    note: '※ Kein API-Schlüssel erforderlich, läuft im Browser',
+    disconnect: 'Trennen',
+    showOrig: 'Original anzeigen',
+    autoScroll: 'Auto-Scrollen',
+    sendFeature: 'Senden',
+    experimental: 'Experimentell',
+    fontLabel: 'Schriftart',
+    uiLangLabel: 'UI-Sprache',
+    twitchLogin: 'Mit Twitch anmelden',
+    sendBtn: 'Senden',
+    logout: 'Abmelden',
+    auto: 'Automatisch erkennen',
+    connecting:     (ch)       => `Verbinde mit #${ch}...`,
+    connected:      (ch, auth) => `Mit #${ch} verbunden!${auth ? ' (Senden aktiviert)' : ''}`,
+    connError:      'Verbindungsfehler. Bitte Kanalnamen überprüfen.',
+    disconnected:   'Verbindung getrennt.',
+    translating:    'Übersetze...',
+    translateFail:  ' (Übersetzung fehlgeschlagen)',
+    loginFail:      'Twitch-Anmeldung fehlgeschlagen. Bitte erneut versuchen.',
+    sendPlaceholder:     'Nachricht eingeben (wird automatisch übersetzt)',
+    sendPlaceholderAuto: '⚠ Übersetzung im Auto-Erkennungsmodus nicht möglich.',
+    msgCount: (n) => `${n} Nachricht${n !== 1 ? 'en' : ''}`,
+  },
+  pt: {
+    subtitle: 'Tradução em tempo real do chat da Twitch',
+    channelLabel: 'Nome do canal',
+    srcLangLabel: 'Idioma de origem',
+    tgtLangLabel: 'Idioma de destino',
+    connectBtn: 'Conectar',
+    note: '※ Sem chave de API, funciona inteiramente no navegador',
+    disconnect: 'Desconectar',
+    showOrig: 'Mostrar original',
+    autoScroll: 'Rolagem automática',
+    sendFeature: 'Enviar',
+    experimental: 'Experimental',
+    fontLabel: 'Fonte',
+    uiLangLabel: 'Idioma da UI',
+    twitchLogin: 'Entrar com Twitch',
+    sendBtn: 'Enviar',
+    logout: 'Sair',
+    auto: 'Detecção automática',
+    connecting:     (ch)       => `Conectando a #${ch}...`,
+    connected:      (ch, auth) => `Conectado a #${ch}!${auth ? ' (Envio ativado)' : ''}`,
+    connError:      'Erro de conexão. Verifique o nome do canal.',
+    disconnected:   'Desconectado.',
+    translating:    'Traduzindo...',
+    translateFail:  ' (falha na tradução)',
+    loginFail:      'Falha no login da Twitch. Por favor, tente novamente.',
+    sendPlaceholder:     'Digite uma mensagem (traduzida para o idioma do chat)',
+    sendPlaceholderAuto: '⚠ Não é possível traduzir no modo de detecção automática.',
+    msgCount: (n) => `${n} mensagem${n !== 1 ? 's' : ''}`,
+  },
+  ru: {
+    subtitle: 'Перевод чата Twitch в реальном времени',
+    channelLabel: 'Название канала',
+    srcLangLabel: 'Язык оригинала',
+    tgtLangLabel: 'Язык перевода',
+    connectBtn: 'Подключиться',
+    note: '※ Без API-ключа, работает прямо в браузере',
+    disconnect: 'Отключиться',
+    showOrig: 'Показать оригинал',
+    autoScroll: 'Автопрокрутка',
+    sendFeature: 'Отправить',
+    experimental: 'Эксперим.',
+    fontLabel: 'Шрифт',
+    uiLangLabel: 'Язык интерфейса',
+    twitchLogin: 'Войти через Twitch',
+    sendBtn: 'Отправить',
+    logout: 'Выйти',
+    auto: 'Автоопределение',
+    connecting:     (ch)       => `Подключение к #${ch}...`,
+    connected:      (ch, auth) => `Подключено к #${ch}!${auth ? ' (Отправка включена)' : ''}`,
+    connError:      'Ошибка подключения. Проверьте название канала.',
+    disconnected:   'Соединение разорвано.',
+    translating:    'Перевод...',
+    translateFail:  ' (ошибка перевода)',
+    loginFail:      'Ошибка входа в Twitch. Пожалуйста, попробуйте ещё раз.',
+    sendPlaceholder:     'Введите сообщение (будет переведено на язык чата)',
+    sendPlaceholderAuto: '⚠ Перевод в режиме автоопределения невозможен.',
+    msgCount: (n) => `${n} сообщений`,
+  },
+  id: {
+    subtitle: 'Terjemahan real-time untuk obrolan Twitch',
+    channelLabel: 'Nama Channel',
+    srcLangLabel: 'Bahasa Sumber',
+    tgtLangLabel: 'Bahasa Tujuan',
+    connectBtn: 'Hubungkan',
+    note: '※ Tanpa kunci API, berjalan sepenuhnya di browser',
+    disconnect: 'Putuskan',
+    showOrig: 'Tampilkan Asli',
+    autoScroll: 'Gulir Otomatis',
+    sendFeature: 'Kirim',
+    experimental: 'Eksperimental',
+    fontLabel: 'Font',
+    uiLangLabel: 'Bahasa UI',
+    twitchLogin: 'Masuk dengan Twitch',
+    sendBtn: 'Kirim',
+    logout: 'Keluar',
+    auto: 'Deteksi Otomatis',
+    connecting:     (ch)       => `Menghubungkan ke #${ch}...`,
+    connected:      (ch, auth) => `Terhubung ke #${ch}!${auth ? ' (Kirim diaktifkan)' : ''}`,
+    connError:      'Kesalahan koneksi. Periksa nama channel.',
+    disconnected:   'Koneksi terputus.',
+    translating:    'Menerjemahkan...',
+    translateFail:  ' (terjemahan gagal)',
+    loginFail:      'Login Twitch gagal. Silakan coba lagi.',
+    sendPlaceholder:     'Ketik pesan (otomatis diterjemahkan ke bahasa chat)',
+    sendPlaceholderAuto: '⚠ Tidak dapat menerjemahkan dalam mode deteksi otomatis.',
+    msgCount: (n) => `${n} pesan`,
+  },
+};
+
+// UIとして選択可能な言語一覧
+export const UI_LANGUAGES = [
+  { code: 'ja',    name: '日本語' },
+  { code: 'en',    name: 'English' },
+  { code: 'ko',    name: '한국어' },
+  { code: 'zh-CN', name: '中文（简体）' },
+  { code: 'zh-TW', name: '中文（繁體）' },
+  { code: 'es',    name: 'Español' },
+  { code: 'fr',    name: 'Français' },
+  { code: 'de',    name: 'Deutsch' },
+  { code: 'pt',    name: 'Português' },
+  { code: 'ru',    name: 'Русский' },
+  { code: 'id',    name: 'Bahasa Indonesia' },
+];
+
+let currentLang = 'ja';
+
+export function getLang() { return currentLang; }
+
+export function t(key, ...args) {
+  const strings = T[currentLang] ?? T.en;
+  const s = strings[key] ?? T.en[key] ?? key;
+  return typeof s === 'function' ? s(...args) : s;
+}
+
+export function setUiLang(lang) {
+  if (!T[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('ui_lang', lang);
+  applyLang();
+}
+
+export function initI18n() {
+  // ブラウザの言語設定またはlocalStorageから復元
+  const saved = localStorage.getItem('ui_lang');
+  if (saved && T[saved]) {
+    currentLang = saved;
+  } else {
+    const browser = (navigator.language || '').toLowerCase();
+    if (browser.startsWith('ko'))      currentLang = 'ko';
+    else if (browser.startsWith('zh-tw') || browser.startsWith('zh-hant')) currentLang = 'zh-TW';
+    else if (browser.startsWith('zh')) currentLang = 'zh-CN';
+    else if (browser.startsWith('es')) currentLang = 'es';
+    else if (browser.startsWith('fr')) currentLang = 'fr';
+    else if (browser.startsWith('de')) currentLang = 'de';
+    else if (browser.startsWith('pt')) currentLang = 'pt';
+    else if (browser.startsWith('ru')) currentLang = 'ru';
+    else if (browser.startsWith('id')) currentLang = 'id';
+    else if (browser.startsWith('ja')) currentLang = 'ja';
+    else if (T[browser])               currentLang = browser;
+    else                               currentLang = 'en';
+  }
+  applyLang();
+}
+
+export function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  // 「自動検出」オプションを翻訳
+  document.querySelectorAll('option[value="auto"]').forEach(el => {
+    el.textContent = t('auto');
+  });
+  // UIランゲージセレクトの値を同期
+  document.querySelectorAll('.ui-lang-select').forEach(el => {
+    el.value = currentLang;
+  });
+  // メッセージ数表示を更新
+  const msgCountEl = document.getElementById('msg-count');
+  if (msgCountEl) {
+    const n = parseInt(msgCountEl.dataset.count || '0');
+    msgCountEl.textContent = t('msgCount', n);
+  }
+}

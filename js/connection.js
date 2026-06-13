@@ -1,6 +1,7 @@
 import { TWITCH_WS_URL } from './config.js';
 import { state } from './state.js';
 import { addChatMessage, addSystemMessage, updateMsgCount } from './chat.js';
+import { t } from './i18n.js';
 
 const setupScreen  = document.getElementById('setup-screen');
 const chatScreen   = document.getElementById('chat-screen');
@@ -16,7 +17,7 @@ export function startChat() {
   updateMsgCount();
   channelName.textContent = state.channel;
   setStatus('connecting');
-  addSystemMessage(`#${state.channel} に接続中...`);
+  addSystemMessage(t('connecting', state.channel));
 
   state.ws = new WebSocket(TWITCH_WS_URL);
 
@@ -39,13 +40,13 @@ export function startChat() {
 
   state.ws.onerror = () => {
     setStatus('error');
-    addSystemMessage('接続エラーが発生しました。チャンネル名を確認してください。');
+    addSystemMessage(t('connError'));
   };
 
   state.ws.onclose = () => {
     if (chatScreen.classList.contains('hidden')) return;
     setStatus('error');
-    addSystemMessage('接続が切断されました。');
+    addSystemMessage(t('disconnected'));
   };
 }
 
@@ -73,7 +74,7 @@ function handleIRCLine(line) {
   }
   if (line.includes(`JOIN #${state.channel}`)) {
     setStatus('connected');
-    addSystemMessage(`#${state.channel} に接続しました！${state.isAuthenticated ? ' (送信機能 ON)' : ''}`);
+    addSystemMessage(t('connected', state.channel, state.isAuthenticated));
     return;
   }
   if (!line.includes('PRIVMSG')) return;

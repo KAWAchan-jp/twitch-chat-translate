@@ -1,4 +1,31 @@
 /* ===== Setup Screen ===== */
+.ui-lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.ui-lang-label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ui-lang-select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+  cursor: pointer;
+}
+.ui-lang-select:focus { border-color: var(--purple); }
+
 .setup-screen {
   min-height: 100vh;
   display: flex;

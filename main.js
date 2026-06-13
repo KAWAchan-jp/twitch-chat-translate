@@ -2,6 +2,7 @@ import { state } from './js/state.js';
 import { startChat, disconnect, showSetup } from './js/connection.js';
 import { scrollToBottom } from './js/chat.js';
 import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js';
+import { initI18n, setUiLang, getLang } from './js/i18n.js';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -23,6 +24,9 @@ import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMess
     state.isAuthenticated = true;
   }
 }
+
+// i18n初期化（ブラウザ言語またはlocalStorageから復元）
+initI18n();
 
 // ===== DOM =====
 const channelInput       = document.getElementById('channel-input');
@@ -47,6 +51,27 @@ const twitchLoginBtn     = document.getElementById('twitch-login-btn');
 const messageInput       = document.getElementById('message-input');
 const sendBtn            = document.getElementById('send-btn');
 const logoutBtn          = document.getElementById('logout-btn');
+
+// ===== UI言語変更 =====
+function onUiLangChange(lang) {
+  setUiLang(lang);
+  // 翻訳先を選択したUI言語に合わせる
+  const hasOption = [...targetLangSelect.options].some(o => o.value === lang);
+  if (hasOption) {
+    targetLangSelect.value = lang;
+    state.targetLang = lang;
+  }
+  const hasHeaderOption = [...headerTgtLang.options].some(o => o.value === lang);
+  if (hasHeaderOption) {
+    headerTgtLang.value = lang;
+    state.targetLang = lang;
+  }
+  updateSendPlaceholder();
+}
+
+document.querySelectorAll('.ui-lang-select').forEach(sel => {
+  sel.addEventListener('change', () => onUiLangChange(sel.value));
+});
 
 // ===== 接続処理 =====
 connectBtn.addEventListener('click', () => {

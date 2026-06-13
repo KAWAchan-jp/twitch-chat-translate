@@ -3,6 +3,7 @@ import { state } from './state.js';
 import { addSystemMessage } from './chat.js';
 import { disconnect, startChat } from './connection.js';
 import { translateText } from './translate.js';
+import { t } from './i18n.js';
 
 const authPanel    = document.getElementById('auth-panel');
 const sendPanel    = document.getElementById('send-panel');
@@ -37,14 +38,12 @@ export async function handleOAuthToken(rawToken) {
 
     if (state.channel) { disconnect(); startChat(); }
   } catch (_) {
-    addSystemMessage('Twitchログインに失敗しました。再度お試しください。');
+    addSystemMessage(t('loginFail'));
   }
 }
 
 export function updateSendPlaceholder() {
-  messageInput.placeholder = state.sourceLang === 'auto'
-    ? '⚠ 自動検出では翻訳できません。翻訳元言語を指定してください'
-    : 'メッセージを入力（チャット言語に翻訳して送信）';
+  messageInput.placeholder = t(state.sourceLang === 'auto' ? 'sendPlaceholderAuto' : 'sendPlaceholder');
 }
 
 export async function sendUserMessage() {
