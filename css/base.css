@@ -1,0 +1,33 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0e0e10;
+  --surface: #18181b;
+  --surface2: #1f1f23;
+  --border: #2a2a2e;
+  --purple: #9147ff;
+  --purple-dim: #6320c2;
+  --text: #efeff1;
+  --text-muted: #adadb8;
+  --text-ja: #f0c4ff;
+  --green: #00f593;
+  --red: #f05252;
+  --yellow: #f0b429;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --font-ui: 'Space Grotesk', sans-serif;
+  --font-chat: 'Noto Sans JP', sans-serif;
+  --chat-font-size: 14px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-chat);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.hidden { display: none !important; }

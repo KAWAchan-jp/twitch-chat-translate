@@ -1,0 +1,111 @@
+import { TWITCH_WS_URL } from './config.js';
+import { state } from './state.js';
+import { addChatMessage, addSystemMessage, updateMsgCount } from './chat.js';
+
+const setupScreen  = document.getElementById('setup-screen');
+const chatScreen   = document.getElementById('chat-screen');
+const chatMessages = document.getElementById('chat-messages');
+const channelName  = document.getElementById('channel-name');
+const statusDot    = document.getElementById('status-dot');
+
+export function startChat() {
+  setupScreen.classList.add('hidden');
+  chatScreen.classList.remove('hidden');
+  chatMessages.innerHTML = '';
+  state.messageCount = 0;
+  updateMsgCount();
+  channelName.textContent = state.channel;
+  setStatus('connecting');
+  addSystemMessage(`#${state.channel} に接続中...`);
+
+  state.ws = new WebSocket(TWITCH_WS_URL);
+
+  state.ws.onopen = () => {
+    state.ws.send('CAP REQ :twitch.tv/tags twitch.tv/commands');
+    if (state.isAuthenticated) {
+      state.ws.send(`PASS ${state.twitchToken}`);
+      state.ws.send(`NICK ${state.twitchUsername}`);
+    } else {
+      state.ws.send('PASS oauth:will_not_actually_work');
+      state.ws.send('NICK justinfan' + Math.floor(Math.random() * 99999));
+    }
+    state.ws.send(`JOIN #${state.channel}`);
+  };
+
+  state.ws.onmessage = (event) => {
+    const lines = event.data.split('\r\n').filter(Boolean);
+    lines.forEach(handleIRCLine);
+  };
+
+  state.ws.onerror = () => {
+    setStatus('error');
+    addSystemMessage('接続エラーが発生しました。チャンネル名を確認してください。');
+  };
+
+  state.ws.onclose = () => {
+    if (chatScreen.classList.contains('hidden')) return;
+    setStatus('error');
+    addSystemMessage('接続が切断されました。');
+  };
+}
+
+export function disconnect() {
+  if (state.ws) {
+    state.ws.onclose = null;
+    state.ws.close();
+    state.ws = null;
+  }
+}
+
+export function showSetup() {
+  setupScreen.classList.remove('hidden');
+  chatScreen.classList.add('hidden');
+}
+
+function setStatus(s) {
+  statusDot.className = `status-dot ${s}`;
+}
+
+function handleIRCLine(line) {
+  if (line.startsWith('PING')) {
+    state.ws.send('PONG :tmi.twitch.tv');
+    return;
+  }
+  if (line.includes(`JOIN #${state.channel}`)) {
+    setStatus('connected');
+    addSystemMessage(`#${state.channel} に接続しました！${state.isAuthenticated ? ' (送信機能 ON)' : ''}`);
+    return;
+  }
+  if (!line.includes('PRIVMSG')) return;
+  const parsed = parseIRCMessage(line);
+  if (!parsed) return;
+  addChatMessage(parsed.username, parsed.text, parsed.color);
+}
+
+function parseIRCMessage(line) {
+  try {
+    const tagMatch = line.match(/^@([^ ]+) :(\w+)!\w+@\S+ PRIVMSG #\w+ :(.+)$/);
+    if (tagMatch) {
+      const tags = parseTags(tagMatch[1]);
+      return {
+        username: tags['display-name'] || tagMatch[2],
+        text: tagMatch[3],
+        color: tags['color'] || null,
+      };
+    }
+    const noTagMatch = line.match(/:(\w+)!\w+@\S+ PRIVMSG #\w+ :(.+)$/);
+    if (noTagMatch) return { username: noTagMatch[1], text: noTagMatch[2], color: null };
+  } catch (e) {
+    console.warn('parse error:', e);
+  }
+  return null;
+}
+
+function parseTags(tagStr) {
+  const tags = {};
+  tagStr.split(';').forEach(pair => {
+    const [k, v] = pair.split('=');
+    tags[k] = v || '';
+  });
+  return tags;
+}

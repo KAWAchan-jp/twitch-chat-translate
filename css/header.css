@@ -1,0 +1,223 @@
+/* ===== Chat Screen ===== */
+.chat-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot.connecting { background: var(--yellow); animation: pulse 1s infinite; }
+.status-dot.connected { background: var(--green); }
+.status-dot.error { background: var(--red); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.channel-name {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--purple);
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.msg-count {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  accent-color: var(--purple);
+  width: 14px;
+  height: 14px;
+}
+
+.header-langs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-langs select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 6px;
+  outline: none;
+  cursor: pointer;
+  max-width: 90px;
+}
+
+.header-langs select:focus {
+  border-color: var(--purple);
+}
+
+.header-lang-arrow {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.header-size-select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 4px 8px;
+  outline: none;
+  cursor: pointer;
+  width: 52px;
+}
+.header-size-select:focus { border-color: var(--purple); }
+
+.settings-wrap {
+  position: relative;
+}
+
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  padding: 0;
+}
+.settings-btn:hover,
+.settings-btn.active {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 0;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+.setting-row:hover { background: var(--surface2); }
+
+.setting-row input[type="checkbox"] {
+  accent-color: var(--purple);
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.setting-row-select {
+  cursor: default;
+  justify-content: space-between;
+}
+.setting-row-select:hover { background: transparent; }
+
+.setting-row-select select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  padding: 3px 6px;
+  outline: none;
+  cursor: pointer;
+  max-width: 90px;
+}
+.setting-row-select select:focus { border-color: var(--purple); }
+
+.disconnect-btn {
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.disconnect-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
