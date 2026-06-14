@@ -2,11 +2,27 @@
 
 const LS_KEY = 'deco_config';
 
+const DEFAULT_CSS =
+`/* === BOX テーマ カスタマイズ ===
+   値を変えるだけでデザインが変わります */
+
+/* 背景色・枠線・角丸 */
+html.deco-theme-box .chat-msg {
+  background: #000000 !important;        /* 背景色 */
+  border-left-color: #9147ff !important; /* 左ラインの色（紫） */
+  border-radius: 6px !important;         /* 角の丸み */
+}
+
+/* テキストの色 */
+html.deco-theme-box .msg-translated { color: #ffffff; } /* 翻訳文（白） */
+html.deco-theme-box .msg-original   { color: #cccccc; } /* 原文（グレー） */
+html.deco-theme-box .msg-username   { color: #ffce00; } /* ユーザー名（黄） */`;
+
 const DEFAULT = {
   theme: 'plain',        // plain | box | separator | bubble
   show: { username: true, time: true, original: true, translated: true },
   effect: 'fade',        // none | fade | slide | pop
-  css: '',               // カスタムCSS
+  css: DEFAULT_CSS,      // カスタムCSS（テンプレート）
   chromaKey: '#00ff00',  // OBSクロマキー背景色
 };
 

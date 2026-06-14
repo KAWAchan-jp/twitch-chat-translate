@@ -1,9 +1,9 @@
-import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.8.25';
-import { state } from './state.js?v=0.8.25';
-import { escapeHtml, sleep } from './utils.js?v=0.8.25';
-import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.8.25';
-import { isBotOrCommand } from './filter.js?v=0.8.25';
-import { t } from './i18n.js?v=0.8.25';
+import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.8.26';
+import { state } from './state.js?v=0.8.26';
+import { escapeHtml, sleep } from './utils.js?v=0.8.26';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.8.26';
+import { isBotOrCommand } from './filter.js?v=0.8.26';
+import { t } from './i18n.js?v=0.8.26';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');

@@ -1,7 +1,7 @@
-import { TWITCH_WS_URL } from './config.js?v=0.8.25';
-import { state } from './state.js?v=0.8.25';
-import { addChatMessage, addSystemMessage, updateMsgCount } from './chat.js?v=0.8.25';
-import { t } from './i18n.js?v=0.8.25';
+import { TWITCH_WS_URL } from './config.js?v=0.8.26';
+import { state } from './state.js?v=0.8.26';
+import { addChatMessage, addSystemMessage, updateMsgCount } from './chat.js?v=0.8.26';
+import { t } from './i18n.js?v=0.8.26';
 
 const setupScreen  = document.getElementById('setup-screen');
 const chatScreen   = document.getElementById('chat-screen');

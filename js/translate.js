@@ -1,4 +1,4 @@
-import { TRANSLATE_SKIP_PATTERNS, TRANSLATE_CACHE_MAX } from './config.js?v=0.8.25';
+import { TRANSLATE_SKIP_PATTERNS, TRANSLATE_CACHE_MAX } from './config.js?v=0.8.26';
 
 // 翻訳結果キャッシュ（同じ文・コピペの再翻訳を防ぐ）
 // MapはInsertion orderを保持するため、上限超過時は最古エントリを削除（簡易LRU）
