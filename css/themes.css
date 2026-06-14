@@ -152,69 +152,72 @@ html.deco-theme-pastel .msg-time { color: #8b6f69; }
 html.deco-theme-pastel .msg-original { color: #765f5a; }
 html.deco-theme-pastel .msg-translated { color: #2b2323; }
 
-/* --- プリセット: スピーチバブル（ランダム左右・雲形・ランダムカラー） --- */
+/* --- プリセット: スピーチバブル（ランダム左右吹き出し） --- */
 html.deco-theme-speech .chat-msg {
   position: relative;
   max-width: 76%;
-  padding: 8px 14px;
-  margin: 4px 0;
+  border-radius: 14px;
+  padding: 8px 12px;
+  margin: 3px 0;
   border-bottom: none;
-  border-radius: var(--speech-radius, 8px 26px 22px 20px / 8px 22px 26px 20px);
-  background: var(--speech-bg, #1e1630) !important;
-  border: 5px solid var(--speech-border, rgba(145,71,255,0.55));
-  box-shadow: 0 2px 10px var(--speech-shadow, rgba(145,71,255,0.15));
 }
 html.deco-theme-speech .chat-msg:hover {
-  background: var(--speech-bg, #1e1630) !important;
+  background: inherit;
 }
 html.deco-theme-speech .chat-msg.speech-left {
+  background: #1e1630 !important;
+  border: 1px solid rgba(145, 71, 255, 0.45);
+  border-top-left-radius: 4px;
   align-self: flex-start;
-  margin-left: 18px;
+  margin-left: 12px;
 }
 html.deco-theme-speech .chat-msg.speech-right {
+  background: #0d1c2e !important;
+  border: 1px solid rgba(80, 160, 240, 0.45);
+  border-top-right-radius: 4px;
   align-self: flex-end;
-  margin-right: 18px;
+  margin-right: 12px;
   text-align: right;
 }
 html.deco-theme-speech .chat-msg.speech-right .msg-meta { justify-content: flex-end; }
-html.deco-theme-speech .chat-msg .msg-username   { color: var(--speech-username,   #b575ff) !important; }
-html.deco-theme-speech .chat-msg .msg-translated { color: var(--speech-translated, #ecdcff); }
-html.deco-theme-speech .chat-msg .msg-original   { color: var(--speech-original,   rgba(210,185,255,0.65)); }
+html.deco-theme-speech .chat-msg.speech-right .msg-username { color: #50a0f0 !important; }
+html.deco-theme-speech .chat-msg.speech-right .msg-translated { color: #d8eeff; }
+html.deco-theme-speech .chat-msg.speech-right .msg-original { color: rgba(180, 210, 255, 0.6); }
 
-/* 左バブルのテール（5px線幅に合わせてサイズ調整） */
+/* 左バブルのテール */
 html.deco-theme-speech .chat-msg.speech-left::before {
   content: '';
   position: absolute;
-  top: -5px; left: -13px;
+  top: -1px; left: -10px;
   width: 0; height: 0;
-  border-right: 13px solid var(--speech-border, rgba(145,71,255,0.55));
-  border-bottom: 13px solid transparent;
+  border-right: 10px solid rgba(145, 71, 255, 0.45);
+  border-bottom: 10px solid transparent;
 }
 html.deco-theme-speech .chat-msg.speech-left::after {
   content: '';
   position: absolute;
   top: 0; left: -8px;
   width: 0; height: 0;
-  border-right: 8px solid var(--speech-bg, #1e1630);
-  border-bottom: 8px solid transparent;
+  border-right: 9px solid #1e1630;
+  border-bottom: 9px solid transparent;
 }
 
-/* 右バブルのテール（5px線幅に合わせてサイズ調整） */
+/* 右バブルのテール */
 html.deco-theme-speech .chat-msg.speech-right::before {
   content: '';
   position: absolute;
-  top: -5px; right: -13px;
+  top: -1px; right: -10px;
   width: 0; height: 0;
-  border-left: 13px solid var(--speech-border, rgba(145,71,255,0.55));
-  border-bottom: 13px solid transparent;
+  border-left: 10px solid rgba(80, 160, 240, 0.45);
+  border-bottom: 10px solid transparent;
 }
 html.deco-theme-speech .chat-msg.speech-right::after {
   content: '';
   position: absolute;
   top: 0; right: -8px;
   width: 0; height: 0;
-  border-left: 8px solid var(--speech-bg, #1e1630);
-  border-bottom: 8px solid transparent;
+  border-left: 9px solid #0d1c2e;
+  border-bottom: 9px solid transparent;
 }
 
 /* --- 全プリセット共通のユーザー指定背景色 --- */
