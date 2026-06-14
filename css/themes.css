@@ -152,13 +152,12 @@ html.deco-theme-pastel .msg-time { color: #8b6f69; }
 html.deco-theme-pastel .msg-original { color: #765f5a; }
 html.deco-theme-pastel .msg-translated { color: #2b2323; }
 
-/* --- プリセット: スピーチバブル（ランダム左右吹き出し） --- */
+/* --- プリセット: スピーチバブル（ランダム左右・雲形） --- */
 html.deco-theme-speech .chat-msg {
   position: relative;
   max-width: 76%;
-  border-radius: 14px;
-  padding: 8px 12px;
-  margin: 3px 0;
+  padding: 8px 14px;
+  margin: 4px 0;
   border-bottom: none;
 }
 html.deco-theme-speech .chat-msg:hover {
@@ -167,31 +166,35 @@ html.deco-theme-speech .chat-msg:hover {
 
 html.deco-theme-speech .chat-msg.speech-left {
   background: #1e1630 !important;
-  border: 1px solid rgba(145, 71, 255, 0.45);
-  border-top-left-radius: 4px;
+  border: 1px solid rgba(145, 71, 255, 0.5);
+  /* 上左だけ小さく（テールの付け根）、他はモコモコ */
+  border-radius: 8px 26px 22px 20px / 8px 22px 26px 20px;
   align-self: flex-start;
-  margin-left: 12px;
+  margin-left: 14px;
+  box-shadow: 0 2px 10px rgba(145, 71, 255, 0.15);
 }
 html.deco-theme-speech .chat-msg.speech-right {
   background: #0d1c2e !important;
-  border: 1px solid rgba(80, 160, 240, 0.45);
-  border-top-right-radius: 4px;
+  border: 1px solid rgba(80, 160, 240, 0.5);
+  /* 上右だけ小さく（テールの付け根）、他はモコモコ */
+  border-radius: 26px 8px 20px 22px / 22px 8px 20px 26px;
   align-self: flex-end;
-  margin-right: 12px;
+  margin-right: 14px;
   text-align: right;
+  box-shadow: 0 2px 10px rgba(80, 160, 240, 0.15);
 }
 html.deco-theme-speech .chat-msg.speech-right .msg-meta { justify-content: flex-end; }
 html.deco-theme-speech .chat-msg.speech-right .msg-username { color: #50a0f0 !important; }
 html.deco-theme-speech .chat-msg.speech-right .msg-translated { color: #d8eeff; }
 html.deco-theme-speech .chat-msg.speech-right .msg-original { color: rgba(180, 210, 255, 0.6); }
 
-/* 左バブルのテール（上左角から飛び出す三角） */
+/* 左バブルのテール */
 html.deco-theme-speech .chat-msg.speech-left::before {
   content: '';
   position: absolute;
   top: -1px; left: -10px;
   width: 0; height: 0;
-  border-right: 10px solid rgba(145, 71, 255, 0.45);
+  border-right: 10px solid rgba(145, 71, 255, 0.5);
   border-bottom: 10px solid transparent;
 }
 html.deco-theme-speech .chat-msg.speech-left::after {
@@ -203,13 +206,13 @@ html.deco-theme-speech .chat-msg.speech-left::after {
   border-bottom: 9px solid transparent;
 }
 
-/* 右バブルのテール（上右角から飛び出す三角） */
+/* 右バブルのテール */
 html.deco-theme-speech .chat-msg.speech-right::before {
   content: '';
   position: absolute;
   top: -1px; right: -10px;
   width: 0; height: 0;
-  border-left: 10px solid rgba(80, 160, 240, 0.45);
+  border-left: 10px solid rgba(80, 160, 240, 0.5);
   border-bottom: 10px solid transparent;
 }
 html.deco-theme-speech .chat-msg.speech-right::after {
