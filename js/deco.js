@@ -47,7 +47,7 @@ html.deco-theme-box .msg-username { color: #ffce00 !important; }`;
 const DEFAULT_CSS = getDefaultCss('en');
 
 const DEFAULT = {
-  theme: 'plain',        // plain | box | separator | bubble | glass | neon | compact | terminal | minimal | card | broadcast | pastel
+  theme: 'plain',        // plain | box | separator | bubble | speech | glass | neon | compact | terminal | minimal | card | broadcast | pastel
   show: { username: true, time: true, original: true, translated: true },
   effect: 'fade',        // none | fade | slide | pop | rise | drop | glow | flip | blur | bounce | wipe | flash
   css: DEFAULT_CSS,      // カスタムCSS（テンプレート）

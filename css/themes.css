@@ -152,6 +152,75 @@ html.deco-theme-pastel .msg-time { color: #8b6f69; }
 html.deco-theme-pastel .msg-original { color: #765f5a; }
 html.deco-theme-pastel .msg-translated { color: #2b2323; }
 
+/* --- プリセット: スピーチバブル（ランダム左右吹き出し） --- */
+html.deco-theme-speech .chat-msg {
+  position: relative;
+  max-width: 76%;
+  border-radius: 14px;
+  padding: 8px 12px;
+  margin: 3px 0;
+  border-bottom: none;
+}
+html.deco-theme-speech .chat-msg:hover {
+  background: inherit;
+}
+
+html.deco-theme-speech .chat-msg.speech-left {
+  background: #1e1630 !important;
+  border: 1px solid rgba(145, 71, 255, 0.45);
+  border-top-left-radius: 4px;
+  align-self: flex-start;
+  margin-left: 12px;
+}
+html.deco-theme-speech .chat-msg.speech-right {
+  background: #0d1c2e !important;
+  border: 1px solid rgba(80, 160, 240, 0.45);
+  border-top-right-radius: 4px;
+  align-self: flex-end;
+  margin-right: 12px;
+  text-align: right;
+}
+html.deco-theme-speech .chat-msg.speech-right .msg-meta { justify-content: flex-end; }
+html.deco-theme-speech .chat-msg.speech-right .msg-username { color: #50a0f0 !important; }
+html.deco-theme-speech .chat-msg.speech-right .msg-translated { color: #d8eeff; }
+html.deco-theme-speech .chat-msg.speech-right .msg-original { color: rgba(180, 210, 255, 0.6); }
+
+/* 左バブルのテール（上左角から飛び出す三角） */
+html.deco-theme-speech .chat-msg.speech-left::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -10px;
+  width: 0; height: 0;
+  border-right: 10px solid rgba(145, 71, 255, 0.45);
+  border-bottom: 10px solid transparent;
+}
+html.deco-theme-speech .chat-msg.speech-left::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -8px;
+  width: 0; height: 0;
+  border-right: 9px solid #1e1630;
+  border-bottom: 9px solid transparent;
+}
+
+/* 右バブルのテール（上右角から飛び出す三角） */
+html.deco-theme-speech .chat-msg.speech-right::before {
+  content: '';
+  position: absolute;
+  top: -1px; right: -10px;
+  width: 0; height: 0;
+  border-left: 10px solid rgba(80, 160, 240, 0.45);
+  border-bottom: 10px solid transparent;
+}
+html.deco-theme-speech .chat-msg.speech-right::after {
+  content: '';
+  position: absolute;
+  top: 0; right: -8px;
+  width: 0; height: 0;
+  border-left: 9px solid #0d1c2e;
+  border-bottom: 9px solid transparent;
+}
+
 /* --- 全プリセット共通のユーザー指定背景色 --- */
 html .chat-messages {
   gap: var(--message-gap, 0px);

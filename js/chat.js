@@ -1,10 +1,10 @@
-import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.9.2';
-import { state } from './state.js?v=0.9.2';
-import { escapeHtml, sleep } from './utils.js?v=0.9.2';
-import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.9.2';
-import { isBotOrCommand } from './filter.js?v=0.9.2';
-import { t } from './i18n.js?v=0.9.2';
-import { getDeco } from './deco.js?v=0.9.2';
+import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.9.3';
+import { state } from './state.js?v=0.9.3';
+import { escapeHtml, sleep } from './utils.js?v=0.9.3';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.9.3';
+import { isBotOrCommand } from './filter.js?v=0.9.3';
+import { t } from './i18n.js?v=0.9.3';
+import { getDeco } from './deco.js?v=0.9.3';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
@@ -18,6 +18,7 @@ export function addChatMessage(username, text, color) {
 
   const el = document.createElement('div');
   el.className = 'chat-msg';
+  el.classList.add(Math.random() < 0.5 ? 'speech-left' : 'speech-right');
 
   const now = new Date();
   const time = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
