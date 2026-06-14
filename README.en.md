@@ -74,6 +74,31 @@ After logging in with your Twitch account, you can translate and send chat messa
 
 ---
 
+## Using It on Your Own Server
+
+You can also download this repository and publish it on your own server or custom domain.
+
+If you only want to **read and translate chat**, you can usually just upload all files to a web server. No API key or Twitch account integration setup is required.
+
+However, if you want to **log in with Twitch and send chat messages**, you need to register your own app in the Twitch Developer Console.
+
+1. Open the [Twitch Developer Console](https://dev.twitch.tv/console)
+2. Log in with your Twitch account
+3. Register an application
+4. Add your public site URL as the `OAuth Redirect URL`
+   - Example: `https://example.com/`
+   - For local testing: `http://localhost:8000/`
+5. Set the issued `Client ID` and redirect URL in `js/config.js`
+
+```js
+export const TWITCH_CLIENT_ID = 'your Client ID';
+export const TWITCH_REDIRECT_URI = 'https://example.com/';
+```
+
+In short, reading and translating chat only requires hosting the files. Twitch Developer Console setup is only needed if you want to use chat sending.
+
+---
+
 ## Stamp / Emote Detection
 
 Messages where the same word appears three or more times in a row are treated as emote spam and collapsed without translation.

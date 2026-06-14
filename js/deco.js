@@ -19,9 +19,9 @@ html.deco-theme-box .msg-original   { color: #cccccc; } /* 原文（グレー）
 html.deco-theme-box .msg-username   { color: #ffce00; } /* ユーザー名（黄） */`;
 
 const DEFAULT = {
-  theme: 'plain',        // plain | box | separator | bubble
+  theme: 'plain',        // plain | box | separator | bubble | glass | neon | compact | terminal | minimal | card | broadcast | pastel
   show: { username: true, time: true, original: true, translated: true },
-  effect: 'fade',        // none | fade | slide | pop
+  effect: 'fade',        // none | fade | slide | pop | rise | drop | glow | flip | blur | bounce | wipe | flash
   css: DEFAULT_CSS,      // カスタムCSS（テンプレート）
   chromaKey: '#00ff00',  // OBSクロマキー背景色
 };

@@ -36,11 +36,136 @@ html.deco-theme-bubble .msg-translated {
   margin-top: 2px;
 }
 
+/* --- プリセット: グラス --- */
+html.deco-theme-glass .chat-msg {
+  background: rgba(20, 24, 32, 0.62) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  margin: 4px 10px;
+  padding: 8px 11px;
+  backdrop-filter: blur(8px);
+}
+html.deco-theme-glass .msg-translated { color: #f8fafc; }
+html.deco-theme-glass .msg-original { color: rgba(226, 232, 240, 0.72); }
+
+/* --- プリセット: ネオン --- */
+html.deco-theme-neon .chat-msg {
+  background: #06070d !important;
+  border: 1px solid rgba(0, 229, 255, 0.55);
+  border-left: 3px solid #ff4ecd;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(255, 78, 205, 0.08);
+  margin: 4px 10px;
+  padding: 7px 10px;
+}
+html.deco-theme-neon .msg-username { text-shadow: 0 0 8px currentColor; }
+html.deco-theme-neon .msg-translated { color: #eaffff; }
+
+/* --- プリセット: コンパクト --- */
+html.deco-theme-compact .chat-msg {
+  margin: 1px 6px;
+  padding: 3px 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+html.deco-theme-compact .msg-meta {
+  display: inline;
+  margin-right: 6px;
+}
+html.deco-theme-compact .msg-original,
+html.deco-theme-compact .msg-translated {
+  display: inline;
+  margin-right: 6px;
+}
+
+/* --- プリセット: ターミナル --- */
+html.deco-theme-terminal .chat-msg {
+  background: #020403 !important;
+  border-left: 2px solid #55ff99;
+  border-radius: 0;
+  margin: 2px 8px;
+  padding: 6px 9px;
+  font-family: Consolas, Monaco, monospace;
+}
+html.deco-theme-terminal .msg-username { color: #55ff99 !important; }
+html.deco-theme-terminal .msg-time,
+html.deco-theme-terminal .msg-original { color: #8ea99a; }
+html.deco-theme-terminal .msg-translated { color: #d7ffe5; }
+
+/* --- プリセット: ミニマル --- */
+html.deco-theme-minimal .chat-msg {
+  margin: 2px 4px;
+  padding: 4px 2px;
+  background: transparent !important;
+  border: none;
+}
+html.deco-theme-minimal .msg-time { opacity: 0.55; }
+html.deco-theme-minimal .msg-original { opacity: 0.68; }
+
+/* --- プリセット: カード --- */
+html.deco-theme-card .chat-msg {
+  background: #151922 !important;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  margin: 5px 10px;
+  padding: 9px 12px;
+}
+html.deco-theme-card .msg-meta {
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* --- プリセット: ブロードキャスト --- */
+html.deco-theme-broadcast .chat-msg {
+  background: rgba(0, 0, 0, 0.88) !important;
+  border-left: 5px solid #f8d84a;
+  border-radius: 2px;
+  margin: 6px 12px;
+  padding: 8px 12px;
+}
+html.deco-theme-broadcast .msg-original { display: none; }
+html.deco-theme-broadcast .msg-translated {
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+/* --- プリセット: パステル --- */
+html.deco-theme-pastel .chat-msg {
+  background: #fff6f2 !important;
+  border: 1px solid #ffd6c9;
+  border-left: 4px solid #7cc7b5;
+  border-radius: 8px;
+  color: #352b2b;
+  margin: 5px 10px;
+  padding: 8px 11px;
+}
+html.deco-theme-pastel .msg-username { color: #0f766e !important; }
+html.deco-theme-pastel .msg-time { color: #8b6f69; }
+html.deco-theme-pastel .msg-original { color: #765f5a; }
+html.deco-theme-pastel .msg-translated { color: #2b2323; }
+
 /* --- 新着エフェクト --- */
 html.deco-fx-none  .chat-msg { animation: none; }
 html.deco-fx-fade  .chat-msg { animation: fadeIn 0.25s ease; }
 html.deco-fx-slide .chat-msg { animation: decoSlideIn 0.3s ease; }
 html.deco-fx-pop   .chat-msg { animation: decoPopIn 0.3s cubic-bezier(0.5, 1.6, 0.5, 1); }
+html.deco-fx-rise  .chat-msg { animation: decoRiseIn 0.32s ease; }
+html.deco-fx-drop  .chat-msg { animation: decoDropIn 0.32s ease; }
+html.deco-fx-glow  .chat-msg { animation: decoGlowIn 0.52s ease; }
+html.deco-fx-flip  .chat-msg {
+  animation: decoFlipIn 0.38s ease;
+  transform-origin: top left;
+}
+html.deco-fx-blur   .chat-msg { animation: decoBlurIn 0.34s ease; }
+html.deco-fx-bounce .chat-msg { animation: decoBounceIn 0.46s cubic-bezier(0.2, 1.5, 0.4, 1); }
+html.deco-fx-wipe   .chat-msg {
+  animation: decoWipeIn 0.38s ease;
+  overflow: hidden;
+}
+html.deco-fx-flash  .chat-msg { animation: decoFlashIn 0.48s ease; }
 
 @keyframes decoSlideIn {
   from { opacity: 0; transform: translateX(-14px); }
@@ -49,4 +174,39 @@ html.deco-fx-pop   .chat-msg { animation: decoPopIn 0.3s cubic-bezier(0.5, 1.6, 
 @keyframes decoPopIn {
   from { opacity: 0; transform: scale(0.9); }
   to   { opacity: 1; transform: scale(1); }
+}
+@keyframes decoRiseIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes decoDropIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes decoGlowIn {
+  0%   { opacity: 0; filter: brightness(1.8); text-shadow: 0 0 12px currentColor; }
+  65%  { opacity: 1; filter: brightness(1.12); text-shadow: 0 0 8px currentColor; }
+  100% { opacity: 1; filter: brightness(1); text-shadow: none; }
+}
+@keyframes decoFlipIn {
+  from { opacity: 0; transform: rotateX(-72deg); }
+  to   { opacity: 1; transform: rotateX(0); }
+}
+@keyframes decoBlurIn {
+  from { opacity: 0; filter: blur(8px); transform: translateY(4px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+@keyframes decoBounceIn {
+  0%   { opacity: 0; transform: translateY(14px) scale(0.96); }
+  65%  { opacity: 1; transform: translateY(-3px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes decoWipeIn {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes decoFlashIn {
+  0%   { opacity: 0; filter: brightness(2.1); }
+  35%  { opacity: 1; filter: brightness(1.55); }
+  100% { opacity: 1; filter: brightness(1); }
 }
