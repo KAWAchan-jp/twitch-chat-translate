@@ -177,6 +177,10 @@ html.deco-custom-message-username .chat-msg:not(.system) .msg-username {
 .chat-msg.deco-expire-slide { animation: decoExpireSlide 0.55s ease forwards !important; }
 .chat-msg.deco-expire-shrink { animation: decoExpireShrink 0.5s ease forwards !important; }
 .chat-msg.deco-expire-blur { animation: decoExpireBlur 0.55s ease forwards !important; }
+.chat-msg.deco-expire-wipe { animation: decoExpireWipe 0.5s ease forwards !important; }
+.chat-msg.deco-expire-drop { animation: decoExpireDrop 0.55s ease-in forwards !important; }
+.chat-msg.deco-expire-flip { animation: decoExpireFlip 0.5s ease-in forwards !important; }
+.chat-msg.deco-expire-collapse { animation: decoExpireCollapse 0.55s ease-in forwards !important; overflow: hidden; }
 
 @keyframes decoExpireFade {
   to { opacity: 0; }
@@ -189,6 +193,19 @@ html.deco-custom-message-username .chat-msg:not(.system) .msg-username {
 }
 @keyframes decoExpireBlur {
   to { opacity: 0; filter: blur(10px); }
+}
+@keyframes decoExpireWipe {
+  to { clip-path: inset(0 100% 0 0); }
+}
+@keyframes decoExpireDrop {
+  to { opacity: 0; transform: translateY(50px) rotate(3deg); }
+}
+@keyframes decoExpireFlip {
+  to { opacity: 0; transform: perspective(400px) rotateX(90deg); }
+}
+@keyframes decoExpireCollapse {
+  from { max-height: 1000px; }
+  to { opacity: 0; max-height: 0; margin-block: 0; padding-block: 0; }
 }
 
 /* --- 新着エフェクト --- */

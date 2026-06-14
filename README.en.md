@@ -79,7 +79,7 @@ Click **Appearance** in the settings panel to customize the chat display.
 | Text colors | Change translation, original text, and name colors separately |
 | Restore preset colors | Restore the selected preset's default colors |
 | Message spacing | Adjust the space between messages |
-| Disappear after time | Remove messages after a chosen delay using Fade / Slide / Shrink / Blur |
+| Disappear after time | Remove messages after a chosen delay using Fade / Slide / Shrink / Blur / Wipe / Drop / Flip / Collapse |
 | Chroma key color | Set the background color removed by OBS chroma key |
 | Custom CSS | Directly edit CSS for detailed customization |
 

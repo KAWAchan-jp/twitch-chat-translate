@@ -75,6 +75,19 @@ html.overlay-mode .chat-msg.deco-expire-shrink {
 html.overlay-mode .chat-msg.deco-expire-blur {
   animation: decoExpireOverlayIris 0.5s ease-in forwards !important;
 }
+html.overlay-mode .chat-msg.deco-expire-wipe {
+  animation: decoExpireOverlayWipe 0.5s ease-in forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-drop {
+  animation: decoExpireOverlayDrop 0.5s ease-in forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-flip {
+  animation: decoExpireOverlayFlip 0.5s ease-in forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-collapse {
+  animation: decoExpireOverlayCollapse 0.5s ease-in forwards !important;
+  overflow: hidden;
+}
 
 @keyframes decoExpireOverlayFade {
   to { clip-path: inset(0 0 100% 0); }
@@ -87,6 +100,19 @@ html.overlay-mode .chat-msg.deco-expire-blur {
 }
 @keyframes decoExpireOverlayIris {
   to { clip-path: inset(50% 50% 50% 50% round 50%); }
+}
+@keyframes decoExpireOverlayWipe {
+  to { clip-path: inset(0 100% 0 0); }
+}
+@keyframes decoExpireOverlayDrop {
+  to { transform: translateY(110vh) rotate(8deg); }
+}
+@keyframes decoExpireOverlayFlip {
+  to { transform: perspective(400px) rotateX(90deg) scaleY(0); }
+}
+@keyframes decoExpireOverlayCollapse {
+  from { max-height: 1000px; }
+  to { max-height: 0; margin-block: 0; padding-block: 0; clip-path: inset(50% 0 50% 0); }
 }
 
 /* ===== OBS用URLコピーボタン ===== */

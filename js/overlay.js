@@ -1,6 +1,6 @@
-import { state } from './state.js?v=0.9.0';
-import { t } from './i18n.js?v=0.9.0';
-import { encodeDeco, applyDecoFrom } from './deco.js?v=0.9.0';
+import { state } from './state.js?v=0.9.2';
+import { t } from './i18n.js?v=0.9.2';
+import { encodeDeco, applyDecoFrom } from './deco.js?v=0.9.2';
 
 // 現在の設定からOBS用オーバーレイURLを生成
 export function buildOverlayUrl() {
