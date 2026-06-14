@@ -1,4 +1,7 @@
 /* ===== 装飾プリセット・表示要素・エフェクト ===== */
+/* @layer deco-themes により、カスタムCSSは詳細度に関係なく常に優先される */
+
+@layer deco-themes {
 
 /* --- 表示要素のON/OFF（html に deco-hide-* が付くと該当要素を隠す） --- */
 html.deco-hide-username .msg-username { display: none; }
@@ -51,3 +54,5 @@ html.deco-fx-pop   .chat-msg { animation: decoPopIn 0.3s cubic-bezier(0.5, 1.6, 
   from { opacity: 0; transform: scale(0.9); }
   to   { opacity: 1; transform: scale(1); }
 }
+
+} /* end @layer deco-themes */
