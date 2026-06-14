@@ -1,13 +1,16 @@
-import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.8.28';
-import { state } from './state.js?v=0.8.28';
-import { escapeHtml, sleep } from './utils.js?v=0.8.28';
-import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.8.28';
-import { isBotOrCommand } from './filter.js?v=0.8.28';
-import { t } from './i18n.js?v=0.8.28';
+import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.9.0';
+import { state } from './state.js?v=0.9.0';
+import { escapeHtml, sleep } from './utils.js?v=0.9.0';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.9.0';
+import { isBotOrCommand } from './filter.js?v=0.9.0';
+import { t } from './i18n.js?v=0.9.0';
+import { getDeco } from './deco.js?v=0.9.0';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
 const msgCountEl    = document.getElementById('msg-count');
+const resumeBtn     = document.getElementById('scroll-resume-btn');
+const resumeCountEl = document.getElementById('scroll-resume-count');
 
 export function addChatMessage(username, text, color) {
   // bot・コマンドの除外（設定ON時）
@@ -30,10 +33,11 @@ export function addChatMessage(username, text, color) {
   `;
 
   chatMessages.appendChild(el);
+  scheduleMessageExpiry(el);
   trimMessages();
   state.messageCount++;
   updateMsgCount();
-  if (state.autoScroll) scrollToBottom();
+  handleNewMessageScroll();
 
   const translatedEl = el.querySelector('.msg-translated');
 
@@ -80,7 +84,20 @@ export function addSystemMessage(text) {
   el.className = 'chat-msg system';
   el.innerHTML = `<div class="msg-translated">${escapeHtml(text)}</div>`;
   chatMessages.appendChild(el);
-  if (state.autoScroll) scrollToBottom();
+  handleNewMessageScroll();
+}
+
+function scheduleMessageExpiry(el) {
+  const deco = getDeco();
+  if (deco.expireEffect === 'none') return;
+
+  const seconds = Math.max(1, Number(deco.expireSeconds) || 10);
+  window.setTimeout(() => {
+    if (!el.isConnected) return;
+    el.classList.add('deco-expire', `deco-expire-${deco.expireEffect}`);
+    el.addEventListener('animationend', () => el.remove(), { once: true });
+    window.setTimeout(() => el.remove(), 1000);
+  }, seconds * 1000);
 }
 
 export function trimMessages() {
@@ -96,4 +113,27 @@ export function updateMsgCount() {
 
 export function scrollToBottom() {
   chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+export function handleNewMessageScroll() {
+  if (state.autoScroll) {
+    scrollToBottom();
+    return;
+  }
+  state.unreadWhilePaused++;
+  updateScrollResume();
+}
+
+export function updateScrollResume() {
+  if (!resumeBtn || !resumeCountEl) return;
+  const shouldShow = !state.autoScroll;
+  resumeBtn.classList.toggle('hidden', !shouldShow);
+  resumeCountEl.textContent = state.unreadWhilePaused > 0 ? String(state.unreadWhilePaused) : '';
+}
+
+export function resumeAutoScroll() {
+  state.autoScroll = true;
+  state.unreadWhilePaused = 0;
+  scrollToBottom();
+  updateScrollResume();
 }

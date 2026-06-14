@@ -1,12 +1,12 @@
-import { state } from './js/state.js?v=0.8.28';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.28';
-import { scrollToBottom } from './js/chat.js?v=0.8.28';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.28';
-import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.28';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.28';
-import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.28';
-import { escapeHtml } from './js/utils.js?v=0.8.28';
-import { getDeco, setDeco, setShow, applyDeco } from './js/deco.js?v=0.8.28';
+import { state } from './js/state.js?v=0.9.0';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.9.0';
+import { resumeAutoScroll, scrollToBottom, updateScrollResume } from './js/chat.js?v=0.9.0';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.9.0';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.9.0';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.9.0';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.9.0';
+import { escapeHtml } from './js/utils.js?v=0.9.0';
+import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './js/deco.js?v=0.9.0';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -47,6 +47,7 @@ const settingsDropdown   = document.getElementById('settings-dropdown');
 const autoScrollCb       = document.getElementById('auto-scroll');
 const hideBotsCb         = document.getElementById('hide-bots');
 const chatContainer      = document.getElementById('chat-container');
+const scrollResumeBtn    = document.getElementById('scroll-resume-btn');
 const experimentalToggle = document.getElementById('experimental-toggle');
 const chatInputArea      = document.getElementById('chat-input-area');
 const authPanel          = document.getElementById('auth-panel');
@@ -71,12 +72,22 @@ const decoShowTime       = document.getElementById('deco-show-time');
 const decoShowOrig       = document.getElementById('deco-show-original');
 const decoShowTrans      = document.getElementById('deco-show-translated');
 const decoEffect         = document.getElementById('deco-effect');
+const decoMsgBackground  = document.getElementById('deco-message-background');
+const decoMsgTranslated  = document.getElementById('deco-message-translated');
+const decoMsgOriginal    = document.getElementById('deco-message-original');
+const decoMsgUsername    = document.getElementById('deco-message-username');
+const decoResetColors    = document.getElementById('deco-reset-colors');
+const decoMessageGap     = document.getElementById('deco-message-gap');
+const decoMessageGapVal  = document.getElementById('deco-message-gap-value');
+const decoExpireEffect   = document.getElementById('deco-expire-effect');
+const decoExpireSeconds  = document.getElementById('deco-expire-seconds');
 const decoChromaKey      = document.getElementById('deco-chroma-key');
 const decoCss            = document.getElementById('deco-css');
 
 // ===== UI言語変更 =====
 function onUiLangChange(lang) {
   setUiLang(lang);
+  if (syncDefaultCssLanguage(lang)) decoCss.value = getDeco().css;
   // 翻訳先を選択したUI言語に合わせる
   const hasOption = [...targetLangSelect.options].some(o => o.value === lang);
   if (hasOption) {
@@ -147,7 +158,11 @@ document.addEventListener('click', (e) => {
 
 autoScrollCb.addEventListener('change', () => {
   state.autoScroll = autoScrollCb.checked;
-  if (state.autoScroll) scrollToBottom();
+  if (state.autoScroll) {
+    state.unreadWhilePaused = 0;
+    scrollToBottom();
+  }
+  updateScrollResume();
 });
 
 hideBotsCb.addEventListener('change', () => {
@@ -159,11 +174,17 @@ chatContainer.addEventListener('scroll', () => {
   if (!atBottom && autoScrollCb.checked) {
     autoScrollCb.checked = false;
     state.autoScroll = false;
+    updateScrollResume();
   }
   if (atBottom && !autoScrollCb.checked) {
     autoScrollCb.checked = true;
-    state.autoScroll = true;
+    resumeAutoScroll();
   }
+});
+
+scrollResumeBtn.addEventListener('click', () => {
+  autoScrollCb.checked = true;
+  resumeAutoScroll();
 });
 
 // ===== 実験的: 送信機能 =====
@@ -259,6 +280,16 @@ function syncDecoUI() {
   decoShowOrig.checked  = d.show.original;
   decoShowTrans.checked = d.show.translated;
   decoEffect.value = d.effect;
+  decoMsgBackground.value = d.messageBackground || '#000000';
+  decoMsgTranslated.value = d.messageTranslated || '#ffffff';
+  decoMsgOriginal.value = d.messageOriginal || '#cccccc';
+  decoMsgUsername.value = d.messageUsername || '#ffce00';
+  decoResetColors.disabled = !d.messageBackground && !d.messageTranslated && !d.messageOriginal && !d.messageUsername;
+  decoMessageGap.value = d.messageGap ?? 0;
+  decoMessageGapVal.value = `${decoMessageGap.value}px`;
+  decoExpireEffect.value = d.expireEffect || 'none';
+  decoExpireSeconds.value = d.expireSeconds || 10;
+  decoExpireSeconds.disabled = decoExpireEffect.value === 'none';
   decoChromaKey.value = d.chromaKey || '#00ff00';
   decoCss.value = d.css;
 }
@@ -281,13 +312,54 @@ decoPresets.forEach(btn => {
     decoPresets.forEach(b => b.classList.toggle('active', b === btn));
   });
 });
-decoShowUser.addEventListener('change',  () => setShow('username',   decoShowUser.checked));
-decoShowTime.addEventListener('change',  () => setShow('time',       decoShowTime.checked));
-decoShowOrig.addEventListener('change',  () => setShow('original',   decoShowOrig.checked));
+decoShowUser.addEventListener('change',  () => setShow('username', decoShowUser.checked));
+decoShowTime.addEventListener('change',  () => setShow('time', decoShowTime.checked));
+decoShowOrig.addEventListener('change',  () => setShow('original', decoShowOrig.checked));
 decoShowTrans.addEventListener('change', () => setShow('translated', decoShowTrans.checked));
 decoEffect.addEventListener('change', () => setDeco({ effect: decoEffect.value }));
-decoChromaKey.addEventListener('input', () => setDeco({ chromaKey: decoChromaKey.value }));
-decoCss.addEventListener('input', () => setDeco({ css: decoCss.value }));
+decoMsgBackground.addEventListener('input', () => {
+  setDeco({ messageBackground: decoMsgBackground.value });
+  decoResetColors.disabled = false;
+});
+decoMsgTranslated.addEventListener('input', () => {
+  setDeco({ messageTranslated: decoMsgTranslated.value });
+  decoResetColors.disabled = false;
+});
+decoMsgOriginal.addEventListener('input', () => {
+  setDeco({ messageOriginal: decoMsgOriginal.value });
+  decoResetColors.disabled = false;
+});
+decoMsgUsername.addEventListener('input', () => {
+  setDeco({ messageUsername: decoMsgUsername.value });
+  decoResetColors.disabled = false;
+});
+decoResetColors.addEventListener('click', () => {
+  setDeco({
+    messageBackground: null,
+    messageTranslated: null,
+    messageOriginal: null,
+    messageUsername: null,
+  });
+  syncDecoUI();
+});
+decoMessageGap.addEventListener('input', () => {
+  const value = Number(decoMessageGap.value);
+  decoMessageGapVal.value = `${value}px`;
+  setDeco({ messageGap: value });
+});
+decoExpireEffect.addEventListener('change', () => {
+  decoExpireSeconds.disabled = decoExpireEffect.value === 'none';
+  setDeco({ expireEffect: decoExpireEffect.value });
+});
+decoExpireSeconds.addEventListener('change', () => {
+  const seconds = Math.min(3600, Math.max(1, Number(decoExpireSeconds.value) || 10));
+  decoExpireSeconds.value = seconds;
+  setDeco({ expireSeconds: seconds });
+});
+decoChromaKey.addEventListener('input', () => {
+  setDeco({ chromaKey: decoChromaKey.value });
+});
+decoCss.addEventListener('input', () => setDeco({ css: decoCss.value, cssEdited: true }));
 
 // ===== OBSオーバーレイ =====
 copyObsBtn.addEventListener('click', (e) => {
@@ -296,5 +368,5 @@ copyObsBtn.addEventListener('click', (e) => {
 });
 
 // 保存済みの装飾を反映してから、?overlay=1 ならオーバーレイ起動（URLの設定が優先）
-applyDeco();
+if (!syncDefaultCssLanguage(getLang())) applyDeco();
 tryStartOverlay(startChat);

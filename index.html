@@ -6,7 +6,7 @@
   <title>Twitch Chat Translator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=0.8.28">
+  <link rel="stylesheet" href="style.css?v=0.9.0">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
     </div>
     <button id="connect-btn" class="connect-btn" data-i18n="connectBtn">接続する</button>
     <p class="note" data-i18n="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.8.28</p>
+    <p class="version">v0.9.0</p>
     <a href="https://github.com/KAWAchan-jp/twitch-chat-translate" target="_blank" class="repo-link">GitHub</a>
   </div>
 </div>
@@ -202,8 +202,12 @@
   <div id="chat-container" class="chat-container">
     <div id="chat-messages" class="chat-messages"></div>
   </div>
+  <button id="scroll-resume-btn" class="scroll-resume-btn hidden" type="button" aria-label="Resume auto scroll">
+    <span class="scroll-resume-icon">↓</span>
+    <span id="scroll-resume-count" class="scroll-resume-count"></span>
+  </button>
 
-  <div id="translate-queue-info" class="queue-info hidden">翻訳中...</div>
+  <div id="translate-queue-info" class="queue-info hidden" data-i18n="translating">翻訳中...</div>
 
   <div id="chat-input-area" class="chat-input-area hidden">
     <div id="auth-panel" class="auth-panel">
@@ -236,11 +240,13 @@
 </div>
 
 <div id="deco-modal" class="modal hidden">
-  <div class="modal-card">
+  <div class="modal-card deco-modal-card">
     <div class="modal-header">
       <span data-i18n="decoSettings">装飾設定</span>
       <button id="deco-close" class="modal-close" title="Close">×</button>
     </div>
+    <div class="deco-modal-body">
+      <div class="deco-settings-column">
     <div class="deco-section">
       <div class="deco-label" data-i18n="presetLabel">プリセット</div>
       <div class="deco-presets">
@@ -285,19 +291,62 @@
       </select>
     </div>
     <div class="deco-section">
+      <div class="deco-label" data-i18n="decoBackground">背景色</div>
+      <div class="deco-chroma-row">
+        <input type="color" id="deco-message-background" value="#000000" class="deco-color-input">
+        <span class="deco-chroma-hint" data-i18n="decoBackgroundHint">すべてのプリセットの背景色</span>
+      </div>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="decoTextColors">文字色</div>
+      <div class="deco-color-grid">
+        <label><input type="color" id="deco-message-translated" value="#ffffff" class="deco-color-input"><span data-i18n="elemTranslated">翻訳</span></label>
+        <label><input type="color" id="deco-message-original" value="#cccccc" class="deco-color-input"><span data-i18n="elemOriginal">原文</span></label>
+        <label><input type="color" id="deco-message-username" value="#ffce00" class="deco-color-input"><span data-i18n="elemUsername">名前</span></label>
+      </div>
+      <button id="deco-reset-colors" class="deco-reset-btn" type="button" data-i18n="decoResetColors">選択中プリセットのデフォルト色に戻す</button>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="decoMessageGap">囲いの間隔</div>
+      <div class="deco-range-row">
+        <input type="range" id="deco-message-gap" min="0" max="24" step="1" value="0">
+        <output id="deco-message-gap-value">0px</output>
+      </div>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="decoExpiry">時間が経てば消える</div>
+      <div class="deco-expire-grid">
+        <select id="deco-expire-effect" class="deco-select">
+          <option value="none" data-i18n="decoExpiryNone">消去しない</option>
+          <option value="fade">Fade</option>
+          <option value="slide">Slide</option>
+          <option value="shrink">Shrink</option>
+          <option value="blur">Blur</option>
+        </select>
+        <label class="deco-seconds-field">
+          <input type="number" id="deco-expire-seconds" min="1" max="3600" step="1" value="10">
+          <span data-i18n="secondsUnit">秒</span>
+        </label>
+      </div>
+    </div>
+    <div class="deco-section">
       <div class="deco-label" data-i18n="chromaBg">クロマキー背景色</div>
       <div class="deco-chroma-row">
         <input type="color" id="deco-chroma-key" value="#00ff00" class="deco-color-input">
         <span class="deco-chroma-hint" data-i18n="chromaBgHint">OBSでクロマキー除去する色</span>
       </div>
     </div>
-    <div class="deco-section">
+      </div>
+      <div class="deco-css-column">
+    <div class="deco-section deco-css-section">
       <div class="deco-label" data-i18n="customCss">カスタムCSS</div>
-      <textarea id="deco-css" class="deco-css" spellcheck="false" placeholder="/* BOX背景色を変更 */&#10;.chat-msg { background: #1a1a1a; }&#10;&#10;/* 翻訳テキストの色 */&#10;.msg-translated { color: gold; }"></textarea>
+      <textarea id="deco-css" class="deco-css" spellcheck="false" placeholder="/* Message background */&#10;.chat-msg { background: #1a1a1a; }&#10;&#10;/* Translated text color */&#10;.msg-translated { color: gold; }"></textarea>
+    </div>
+      </div>
     </div>
   </div>
 </div>
 
-<script type="module" src="main.js?v=0.8.28"></script>
+<script type="module" src="main.js?v=0.9.0"></script>
 </body>
 </html>

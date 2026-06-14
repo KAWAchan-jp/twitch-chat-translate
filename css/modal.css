@@ -118,6 +118,31 @@
 }
 
 /* ===== 装飾設定モーダル ===== */
+.deco-modal-card {
+  max-width: 760px;
+}
+
+.deco-modal-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
+  align-items: stretch;
+  gap: 20px;
+}
+
+.deco-settings-column,
+.deco-css-column {
+  min-width: 0;
+}
+.deco-css-column,
+.deco-css-section {
+  display: flex;
+  flex-direction: column;
+}
+.deco-css-section {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 .deco-section { margin-bottom: 16px; }
 
 .deco-label {
@@ -130,12 +155,16 @@
 }
 
 .deco-presets {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
 .deco-preset {
-  padding: 8px;
+  flex: 0 0 auto;
+  padding: 7px 12px;
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -144,6 +173,7 @@
   font-size: 12px;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
 }
 .deco-preset:hover { border-color: var(--purple); }
 .deco-preset.active {
@@ -189,6 +219,84 @@
   gap: 10px;
 }
 
+.deco-color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.deco-color-grid label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+
+.deco-reset-btn {
+  width: 100%;
+  margin-top: 9px;
+  padding: 7px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+}
+.deco-reset-btn:hover {
+  border-color: var(--purple);
+  color: var(--text);
+}
+.deco-reset-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.deco-range-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  align-items: center;
+  gap: 10px;
+}
+.deco-range-row input {
+  width: 100%;
+  accent-color: var(--purple);
+}
+.deco-range-row output {
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  text-align: right;
+}
+
+.deco-expire-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 86px;
+  gap: 8px;
+}
+.deco-seconds-field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+}
+.deco-seconds-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+
 .deco-color-input {
   width: 44px;
   height: 32px;
@@ -206,8 +314,9 @@
 }
 
 .deco-css {
+  flex: 1;
   width: 100%;
-  min-height: 80px;
+  min-height: 0;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -216,6 +325,19 @@
   font-size: 12px;
   padding: 8px 10px;
   outline: none;
-  resize: vertical;
+  resize: none;
 }
 .deco-css:focus { border-color: var(--purple); }
+
+@media (max-width: 720px) {
+  .deco-modal-card {
+    max-width: 360px;
+  }
+  .deco-modal-body {
+    display: block;
+  }
+  .deco-css {
+    min-height: 200px;
+    resize: vertical;
+  }
+}

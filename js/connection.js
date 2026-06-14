@@ -1,7 +1,7 @@
-import { TWITCH_WS_URL } from './config.js?v=0.8.28';
-import { state } from './state.js?v=0.8.28';
-import { addChatMessage, addSystemMessage, updateMsgCount } from './chat.js?v=0.8.28';
-import { t } from './i18n.js?v=0.8.28';
+import { TWITCH_WS_URL } from './config.js?v=0.9.0';
+import { state } from './state.js?v=0.9.0';
+import { addChatMessage, addSystemMessage, updateMsgCount, updateScrollResume } from './chat.js?v=0.9.0';
+import { t } from './i18n.js?v=0.9.0';
 
 const setupScreen  = document.getElementById('setup-screen');
 const chatScreen   = document.getElementById('chat-screen');
@@ -14,7 +14,9 @@ export function startChat() {
   chatScreen.classList.remove('hidden');
   chatMessages.innerHTML = '';
   state.messageCount = 0;
+  state.unreadWhilePaused = 0;
   updateMsgCount();
+  updateScrollResume();
   channelName.textContent = state.channel;
   setStatus('connecting');
   addSystemMessage(t('connecting', state.channel));

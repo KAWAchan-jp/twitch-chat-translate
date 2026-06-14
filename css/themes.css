@@ -1,11 +1,11 @@
 /* ===== 装飾プリセット・表示要素・エフェクト ===== */
 
 /* --- 表示要素のON/OFF（html に deco-hide-* が付くと該当要素を隠す） --- */
-html.deco-hide-username .msg-username { display: none; }
-html.deco-hide-time .msg-time { display: none; }
-html.deco-hide-original .msg-original { display: none; }
-html.deco-hide-translated .msg-translated { display: none; }
-html.deco-hide-username.deco-hide-time .msg-meta { display: none; }
+html.deco-hide-username .msg-username { display: none !important; }
+html.deco-hide-time .msg-time { display: none !important; }
+html.deco-hide-original .msg-original { display: none !important; }
+html.deco-hide-translated .msg-translated { display: none !important; }
+html.deco-hide-username.deco-hide-time .msg-meta { display: none !important; }
 
 /* --- プリセット: ボックス --- */
 html.deco-theme-box .chat-msg {
@@ -16,6 +16,9 @@ html.deco-theme-box .chat-msg {
   margin: 3px 10px;
   padding: 7px 10px;
 }
+html.deco-theme-box .msg-translated { color: #ffffff; }
+html.deco-theme-box .msg-original { color: #cccccc; }
+html.deco-theme-box .msg-username { color: #ffce00 !important; }
 
 /* --- プリセット: セパレーター --- */
 html.deco-theme-separator .chat-msg {
@@ -125,7 +128,9 @@ html.deco-theme-broadcast .chat-msg {
   margin: 6px 12px;
   padding: 8px 12px;
 }
-html.deco-theme-broadcast .msg-original { display: none; }
+html.deco-theme-broadcast .msg-original {
+  color: #d6d6d6;
+}
 html.deco-theme-broadcast .msg-translated {
   color: #ffffff;
   font-weight: 700;
@@ -146,6 +151,45 @@ html.deco-theme-pastel .msg-username { color: #0f766e !important; }
 html.deco-theme-pastel .msg-time { color: #8b6f69; }
 html.deco-theme-pastel .msg-original { color: #765f5a; }
 html.deco-theme-pastel .msg-translated { color: #2b2323; }
+
+/* --- 全プリセット共通のユーザー指定背景色 --- */
+html .chat-messages {
+  gap: var(--message-gap, 0px);
+}
+html.deco-custom-message-background .chat-msg:not(.system) {
+  background: var(--message-background) !important;
+}
+html.deco-custom-message-background.deco-theme-bubble .chat-msg:not(.system) .msg-translated {
+  background: var(--message-background) !important;
+}
+html.deco-custom-message-translated .chat-msg:not(.system) .msg-translated {
+  color: var(--message-translated) !important;
+}
+html.deco-custom-message-original .chat-msg:not(.system) .msg-original {
+  color: var(--message-original) !important;
+}
+html.deco-custom-message-username .chat-msg:not(.system) .msg-username {
+  color: var(--message-username) !important;
+}
+
+/* --- 時間経過後の消去エフェクト --- */
+.chat-msg.deco-expire-fade { animation: decoExpireFade 0.5s ease forwards !important; }
+.chat-msg.deco-expire-slide { animation: decoExpireSlide 0.55s ease forwards !important; }
+.chat-msg.deco-expire-shrink { animation: decoExpireShrink 0.5s ease forwards !important; }
+.chat-msg.deco-expire-blur { animation: decoExpireBlur 0.55s ease forwards !important; }
+
+@keyframes decoExpireFade {
+  to { opacity: 0; }
+}
+@keyframes decoExpireSlide {
+  to { opacity: 0; transform: translateX(40px); }
+}
+@keyframes decoExpireShrink {
+  to { opacity: 0; transform: scale(0.75); }
+}
+@keyframes decoExpireBlur {
+  to { opacity: 0; filter: blur(10px); }
+}
 
 /* --- 新着エフェクト --- */
 html.deco-fx-none  .chat-msg { animation: none; }

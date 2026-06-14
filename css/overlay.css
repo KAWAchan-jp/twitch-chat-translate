@@ -33,7 +33,7 @@ html.overlay-mode .chat-msg:hover {
 
 /* boxテーマはレイヤー外から明示的に背景を指定（@layerより優先） */
 html.overlay-mode.deco-theme-box .chat-msg {
-  background: rgb(0, 0, 0) !important;
+  background: #000000 !important;
 }
 
 /* スクロールバーを隠す */
@@ -60,6 +60,33 @@ html.overlay-mode .msg-translated.ja {
 
 html.overlay-mode .msg-original {
   color: #e0e0e0;
+}
+
+/* 半透明・ぼかしはクロマキー色と混ざるため、OBSでは不透明な退場モーションを使う */
+html.overlay-mode .chat-msg.deco-expire-fade {
+  animation: decoExpireOverlayFade 0.45s steps(6, end) forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-slide {
+  animation: decoExpireOverlaySlide 0.5s ease-in forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-shrink {
+  animation: decoExpireOverlayShrink 0.45s ease-in forwards !important;
+}
+html.overlay-mode .chat-msg.deco-expire-blur {
+  animation: decoExpireOverlayIris 0.5s ease-in forwards !important;
+}
+
+@keyframes decoExpireOverlayFade {
+  to { clip-path: inset(0 0 100% 0); }
+}
+@keyframes decoExpireOverlaySlide {
+  to { transform: translateX(110%); }
+}
+@keyframes decoExpireOverlayShrink {
+  to { transform: scale(0); }
+}
+@keyframes decoExpireOverlayIris {
+  to { clip-path: inset(50% 50% 50% 50% round 50%); }
 }
 
 /* ===== OBS用URLコピーボタン ===== */

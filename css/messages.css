@@ -16,6 +16,43 @@
   gap: 0;
 }
 
+.scroll-resume-btn {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(24, 24, 27, 0.94);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.34);
+  cursor: pointer;
+}
+.scroll-resume-btn:hover {
+  border-color: var(--purple);
+  color: #ffffff;
+}
+.scroll-resume-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: #ffffff;
+  line-height: 1;
+}
+.scroll-resume-count:empty { display: none; }
+
 .chat-msg {
   display: flex;
   flex-direction: column;
@@ -82,13 +119,14 @@
 
 /* システムメッセージ */
 .chat-msg.system {
-  background: rgba(145,71,255,0.05);
-  border-left: 2px solid var(--purple);
+  background: #21162f !important;
+  border-left: 3px solid #ffe066 !important;
 }
 
 .chat-msg.system .msg-translated {
-  color: var(--text-muted);
+  color: #ffeaa0 !important;
   font-size: 12px;
+  font-weight: 600;
 }
 
 .queue-info {

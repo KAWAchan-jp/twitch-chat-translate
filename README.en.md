@@ -17,6 +17,9 @@ A web app that translates and displays Twitch chat in real time.
 - **Multilingual support** - Supports 15+ languages
 - **Emote detection** - Automatically collapses repeated emote spam
 - **Font and size controls** - Adjust the chat display for readability
+- **OBS overlay** - Display decorated chat as an OBS browser source
+- **Appearance controls** - Adjust presets, colors, spacing, lifetime, and effects
+- **Custom CSS** - Fine-tune the chat display with your own CSS
 - **Chat sending (experimental)** - Log in with Twitch and send translated chat messages
 
 ---
@@ -52,10 +55,44 @@ Click the **⚙ icon** in the header to open the settings panel.
 
 | Setting | Description |
 |---------|-------------|
-| Show original | Show or hide the original message before translation |
 | Auto scroll | Automatically scroll down when new messages arrive |
+| Hide bots & commands | Exclude bot messages and commands from the chat display |
 | Send [experimental] | Show the chat sending panel. Twitch login is required |
 | Font | Switch between sans-serif, serif, and monospace fonts |
+| UI language | Change the interface language |
+| Appearance | Change chat presets, colors, spacing, and effects |
+| Manage blocked users | Add or remove users that should not be displayed |
+| Copy OBS URL | Copy an OBS browser source URL containing the current appearance settings |
+
+---
+
+## Appearance
+
+Click **Appearance** in the settings panel to customize the chat display.
+
+| Item | Description |
+|------|-------------|
+| Preset | Plain / Box / Separator / Bubble / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
+| Show elements | Show or hide the name, time, original text, and translation |
+| Effect | Choose the animation used when a new message appears |
+| Background color | Set a shared message background color for every preset |
+| Text colors | Change translation, original text, and name colors separately |
+| Restore preset colors | Restore the selected preset's default colors |
+| Message spacing | Adjust the space between messages |
+| Disappear after time | Remove messages after a chosen delay using Fade / Slide / Shrink / Blur |
+| Chroma key color | Set the background color removed by OBS chroma key |
+| Custom CSS | Directly edit CSS for detailed customization |
+
+Settings are saved automatically in the browser. Custom CSS is also saved and applied as you type, so no save button is required.
+
+### Display in OBS
+
+1. Configure the chat display in **Appearance**
+2. Click **Copy OBS URL** in the settings panel
+3. Add a Browser Source in OBS and paste the copied URL
+4. Configure chroma key in OBS if needed
+
+The copied OBS URL includes appearance settings, shown elements, colors, spacing, message lifetime, and custom CSS.
 
 ---
 
