@@ -1,6 +1,10 @@
-import { TRANSLATE_SKIP_PATTERNS } from './config.js';
+import { TRANSLATE_SKIP_PATTERNS, TRANSLATE_CACHE_MAX } from './config.js';
 
-export async function translateText(text, from, to) {
+// 翻訳結果キャッシュ（同じ文・コピペの再翻訳を防ぐ）
+// MapはInsertion orderを保持するため、上限超過時は最古エントリを削除（簡易LRU）
+const cache = new Map();
+
+async function fetchTranslation(text, from, to) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
   try {
@@ -12,6 +16,32 @@ export async function translateText(text, from, to) {
   } finally {
     clearTimeout(timer);
   }
+}
+
+// キャッシュ済みなら翻訳結果を返す（未ヒットはundefined）。同期関数
+export function getCachedTranslation(text, from, to) {
+  const key = `${from}:${to}:${text}`;
+  if (!cache.has(key)) return undefined;
+  // ヒットしたら末尾へ移動（最近使用＝削除されにくくする）
+  const cached = cache.get(key);
+  cache.delete(key);
+  cache.set(key, cached);
+  return cached;
+}
+
+export async function translateText(text, from, to) {
+  const key = `${from}:${to}:${text}`;
+
+  const hit = getCachedTranslation(text, from, to);
+  if (hit !== undefined) return hit;
+
+  const translated = await fetchTranslation(text, from, to);
+
+  cache.set(key, translated);
+  if (cache.size > TRANSLATE_CACHE_MAX) {
+    cache.delete(cache.keys().next().value); // 最古を削除
+  }
+  return translated;
 }
 
 export function shouldSkipTranslation(text) {

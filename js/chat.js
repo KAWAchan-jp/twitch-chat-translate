@@ -1,7 +1,7 @@
 import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js';
 import { state } from './state.js';
 import { escapeHtml, sleep } from './utils.js';
-import { translateText, shouldSkipTranslation, detectEmoteSpam } from './translate.js';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js';
 import { t } from './i18n.js';
 
 const chatMessages  = document.getElementById('chat-messages');
@@ -44,6 +44,15 @@ export function addChatMessage(username, text, color) {
   if (shouldSkipTranslation(text)) {
     translatedEl.textContent = text;
     translatedEl.classList.remove('translating');
+    return;
+  }
+
+  // キャッシュヒットならAPI遅延キューをスキップして即時表示
+  const cached = getCachedTranslation(text, state.sourceLang, state.targetLang);
+  if (cached !== undefined) {
+    translatedEl.textContent = cached;
+    translatedEl.classList.remove('translating');
+    translatedEl.classList.add('ja');
     return;
   }
 
