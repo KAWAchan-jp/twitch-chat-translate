@@ -1,10 +1,10 @@
-import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.9.6';
-import { state } from './state.js?v=0.9.6';
-import { escapeHtml, sleep } from './utils.js?v=0.9.6';
-import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.9.6';
-import { isBotOrCommand } from './filter.js?v=0.9.6';
-import { t } from './i18n.js?v=0.9.6';
-import { getDeco } from './deco.js?v=0.9.6';
+import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.9.7';
+import { state } from './state.js?v=0.9.7';
+import { escapeHtml, sleep } from './utils.js?v=0.9.7';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.9.7';
+import { isBotOrCommand } from './filter.js?v=0.9.7';
+import { t } from './i18n.js?v=0.9.7';
+import { getDeco } from './deco.js?v=0.9.7';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
