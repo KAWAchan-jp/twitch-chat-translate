@@ -3,6 +3,7 @@ import { startChat, disconnect, showSetup } from './js/connection.js';
 import { scrollToBottom } from './js/chat.js';
 import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js';
 import { initI18n, setUiLang, getLang } from './js/i18n.js';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -51,6 +52,7 @@ const twitchLoginBtn     = document.getElementById('twitch-login-btn');
 const messageInput       = document.getElementById('message-input');
 const sendBtn            = document.getElementById('send-btn');
 const logoutBtn          = document.getElementById('logout-btn');
+const copyObsBtn         = document.getElementById('copy-obs-url');
 
 // ===== UI言語変更 =====
 function onUiLangChange(lang) {
@@ -184,3 +186,12 @@ sendBtn.addEventListener('click', () => sendUserMessage());
 messageInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendUserMessage();
 });
+
+// ===== OBSオーバーレイ =====
+copyObsBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  copyOverlayUrl(copyObsBtn);
+});
+
+// URLに ?overlay=1 があればオーバーレイモードで起動（セットアップをスキップ）
+tryStartOverlay(startChat);

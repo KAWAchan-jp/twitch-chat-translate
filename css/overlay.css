@@ -1,0 +1,82 @@
+/* ===== OBS オーバーレイモード ===== */
+/* htmlに .overlay-mode が付くと、チャット本文だけを背景透過で表示する */
+
+html.overlay-mode,
+html.overlay-mode body {
+  background: transparent !important;
+}
+
+/* ヘッダー・翻訳中バー・送信欄を全て隠す */
+html.overlay-mode .chat-header,
+html.overlay-mode .queue-info,
+html.overlay-mode .chat-input-area {
+  display: none !important;
+}
+
+/* システムメッセージ（接続しました等）も非表示 */
+html.overlay-mode .chat-msg.system {
+  display: none !important;
+}
+
+html.overlay-mode .chat-screen {
+  height: 100vh;
+}
+
+/* メッセージの枠線・ホバー背景を除去してクリーンに */
+html.overlay-mode .chat-msg {
+  border-bottom: none;
+  padding: 4px 14px;
+}
+html.overlay-mode .chat-msg:hover {
+  background: transparent;
+}
+
+/* スクロールバーを隠す */
+html.overlay-mode .chat-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 映像の上でも読めるよう全テキストに黒縁取りを付ける */
+html.overlay-mode .msg-username,
+html.overlay-mode .msg-time,
+html.overlay-mode .msg-original,
+html.overlay-mode .msg-translated {
+  text-shadow:
+    -1px -1px 0 #000,  1px -1px 0 #000,
+    -1px  1px 0 #000,  1px  1px 0 #000,
+     0    2px 3px rgba(0,0,0,0.9);
+}
+
+/* 翻訳文は白で統一（映像上での視認性優先） */
+html.overlay-mode .msg-translated,
+html.overlay-mode .msg-translated.ja {
+  color: #fff;
+}
+
+html.overlay-mode .msg-original {
+  color: #e0e0e0;
+}
+
+/* ===== OBS用URLコピーボタン ===== */
+.copy-obs-btn {
+  display: block;
+  width: calc(100% - 16px);
+  margin: 6px 8px 2px;
+  padding: 7px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.copy-obs-btn:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+.copy-obs-btn.copied {
+  border-color: var(--green);
+  color: var(--green);
+}
