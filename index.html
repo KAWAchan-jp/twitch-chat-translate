@@ -6,7 +6,7 @@
   <title>Twitch Chat Translator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=0.8.17">
+  <link rel="stylesheet" href="style.css?v=0.8.18">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
     </div>
     <button id="connect-btn" class="connect-btn" data-i18n="connectBtn">接続する</button>
     <p class="note" data-i18n="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.8.17</p>
+    <p class="version">v0.8.18</p>
     <a href="https://github.com/KAWAchan-jp/twitch-chat-translate" target="_blank" class="repo-link">GitHub</a>
   </div>
 </div>
@@ -155,10 +155,6 @@
         </button>
         <div id="settings-dropdown" class="settings-dropdown hidden">
           <label class="setting-row">
-            <input type="checkbox" id="show-original" checked>
-            <span data-i18n="showOrig">原文表示</span>
-          </label>
-          <label class="setting-row">
             <input type="checkbox" id="auto-scroll" checked>
             <span data-i18n="autoScroll">自動スクロール</span>
           </label>
@@ -194,6 +190,7 @@
               <option value="id">Bahasa Indonesia</option>
             </select>
           </div>
+          <button id="open-deco" class="copy-obs-btn" data-i18n="decoSettings">装飾設定</button>
           <button id="open-blocklist" class="copy-obs-btn" data-i18n="manageBlocklist">除外ユーザーを管理</button>
           <button id="copy-obs-url" class="copy-obs-btn" data-i18n="copyObsUrl">OBS用URLをコピー</button>
         </div>
@@ -238,6 +235,46 @@
   </div>
 </div>
 
-<script type="module" src="main.js?v=0.8.17"></script>
+<div id="deco-modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <span data-i18n="decoSettings">装飾設定</span>
+      <button id="deco-close" class="modal-close" title="Close">×</button>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="presetLabel">プリセット</div>
+      <div class="deco-presets">
+        <button class="deco-preset" data-theme="plain">Plain</button>
+        <button class="deco-preset" data-theme="box">Box</button>
+        <button class="deco-preset" data-theme="separator">Separator</button>
+        <button class="deco-preset" data-theme="bubble">Bubble</button>
+      </div>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="showElements">表示要素</div>
+      <div class="deco-checks">
+        <label><input type="checkbox" id="deco-show-username" checked><span data-i18n="elemUsername">名前</span></label>
+        <label><input type="checkbox" id="deco-show-time" checked><span data-i18n="elemTime">時刻</span></label>
+        <label><input type="checkbox" id="deco-show-original" checked><span data-i18n="elemOriginal">原文</span></label>
+        <label><input type="checkbox" id="deco-show-translated" checked><span data-i18n="elemTranslated">翻訳</span></label>
+      </div>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="effectLabel">エフェクト</div>
+      <select id="deco-effect" class="deco-select">
+        <option value="none">None</option>
+        <option value="fade">Fade</option>
+        <option value="slide">Slide</option>
+        <option value="pop">Pop</option>
+      </select>
+    </div>
+    <div class="deco-section">
+      <div class="deco-label" data-i18n="customCss">カスタムCSS</div>
+      <textarea id="deco-css" class="deco-css" spellcheck="false" placeholder=".msg-translated { color: gold; }"></textarea>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="main.js?v=0.8.18"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
-import { state } from './state.js?v=0.8.17';
-import { t } from './i18n.js?v=0.8.17';
+import { state } from './state.js?v=0.8.18';
+import { t } from './i18n.js?v=0.8.18';
+import { encodeDeco, applyDecoFrom } from './deco.js?v=0.8.18';
 
 // 現在の設定からOBS用オーバーレイURLを生成
 export function buildOverlayUrl() {
@@ -11,10 +12,9 @@ export function buildOverlayUrl() {
 
   const fontSize   = document.getElementById('font-size-select')?.value;
   const fontFamily = document.getElementById('font-family-select')?.value;
-  const showOrig   = document.getElementById('show-original')?.checked;
   if (fontSize)   params.set('size', fontSize);
   if (fontFamily) params.set('font', fontFamily);
-  if (!showOrig)  params.set('orig', '0');
+  params.set('deco', encodeDeco());
 
   return `${location.origin}${location.pathname}?${params.toString()}`;
 }
@@ -59,10 +59,8 @@ export function tryStartOverlay(startChat) {
   const font = params.get('font');
   if (size) document.documentElement.style.setProperty('--chat-font-size', size);
   if (font) document.documentElement.style.setProperty('--font-chat', font);
-  if (params.get('orig') === '0') {
-    const showOrig = document.getElementById('show-original');
-    if (showOrig) showOrig.checked = false;
-  }
+  const decoParam = params.get('deco');
+  if (decoParam) applyDecoFrom(decoParam);
 
   const ch = (params.get('channel') || '').toLowerCase().replace(/^#/, '');
   if (ch) {

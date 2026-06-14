@@ -1,14 +1,13 @@
-import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.8.17';
-import { state } from './state.js?v=0.8.17';
-import { escapeHtml, sleep } from './utils.js?v=0.8.17';
-import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.8.17';
-import { isBotOrCommand } from './filter.js?v=0.8.17';
-import { t } from './i18n.js?v=0.8.17';
+import { MAX_MESSAGES, TRANSLATE_DELAY_MS } from './config.js?v=0.8.18';
+import { state } from './state.js?v=0.8.18';
+import { escapeHtml, sleep } from './utils.js?v=0.8.18';
+import { translateText, getCachedTranslation, shouldSkipTranslation, detectEmoteSpam } from './translate.js?v=0.8.18';
+import { isBotOrCommand } from './filter.js?v=0.8.18';
+import { t } from './i18n.js?v=0.8.18';
 
 const chatMessages  = document.getElementById('chat-messages');
 const chatContainer = document.getElementById('chat-container');
 const msgCountEl    = document.getElementById('msg-count');
-const showOrigCb    = document.getElementById('show-original');
 
 export function addChatMessage(username, text, color) {
   // bot・コマンドの除外（設定ON時）
@@ -26,7 +25,7 @@ export function addChatMessage(username, text, color) {
       <span class="msg-username" style="color:${usernameColor}">${escapeHtml(username)}</span>
       <span class="msg-time">${time}</span>
     </div>
-    <div class="msg-original${showOrigCb.checked ? '' : ' hidden-orig'}">${escapeHtml(text)}</div>
+    <div class="msg-original">${escapeHtml(text)}</div>
     <div class="msg-translated translating">${t('translating')}</div>
   `;
 

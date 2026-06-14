@@ -1,11 +1,12 @@
-import { state } from './js/state.js?v=0.8.17';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.17';
-import { scrollToBottom } from './js/chat.js?v=0.8.17';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.17';
-import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.17';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.17';
-import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.17';
-import { escapeHtml } from './js/utils.js?v=0.8.17';
+import { state } from './js/state.js?v=0.8.18';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.18';
+import { scrollToBottom } from './js/chat.js?v=0.8.18';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.18';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.18';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.18';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.18';
+import { escapeHtml } from './js/utils.js?v=0.8.18';
+import { getDeco, setDeco, setShow, applyDeco } from './js/deco.js?v=0.8.18';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -43,7 +44,6 @@ const fontFamilySelect   = document.getElementById('font-family-select');
 const fontSizeSelect     = document.getElementById('font-size-select');
 const settingsBtn        = document.getElementById('settings-btn');
 const settingsDropdown   = document.getElementById('settings-dropdown');
-const showOrigCb         = document.getElementById('show-original');
 const autoScrollCb       = document.getElementById('auto-scroll');
 const hideBotsCb         = document.getElementById('hide-bots');
 const chatContainer      = document.getElementById('chat-container');
@@ -62,6 +62,16 @@ const blocklistClose     = document.getElementById('blocklist-close');
 const blocklistInput     = document.getElementById('blocklist-input');
 const blocklistAddBtn    = document.getElementById('blocklist-add');
 const blocklistItems     = document.getElementById('blocklist-items');
+const openDecoBtn        = document.getElementById('open-deco');
+const decoModal          = document.getElementById('deco-modal');
+const decoClose          = document.getElementById('deco-close');
+const decoPresets        = document.querySelectorAll('.deco-preset');
+const decoShowUser       = document.getElementById('deco-show-username');
+const decoShowTime       = document.getElementById('deco-show-time');
+const decoShowOrig       = document.getElementById('deco-show-original');
+const decoShowTrans      = document.getElementById('deco-show-translated');
+const decoEffect         = document.getElementById('deco-effect');
+const decoCss            = document.getElementById('deco-css');
 
 // ===== UI言語変更 =====
 function onUiLangChange(lang) {
@@ -141,12 +151,6 @@ autoScrollCb.addEventListener('change', () => {
 
 hideBotsCb.addEventListener('change', () => {
   state.hideBots = hideBotsCb.checked;
-});
-
-showOrigCb.addEventListener('change', () => {
-  document.querySelectorAll('.msg-original').forEach(el => {
-    el.classList.toggle('hidden-orig', !showOrigCb.checked);
-  });
 });
 
 chatContainer.addEventListener('scroll', () => {
@@ -245,11 +249,49 @@ blocklistItems.addEventListener('click', (e) => {
   renderBlocklist();
 });
 
+// ===== 装飾設定 =====
+function syncDecoUI() {
+  const d = getDeco();
+  decoPresets.forEach(b => b.classList.toggle('active', b.dataset.theme === d.theme));
+  decoShowUser.checked  = d.show.username;
+  decoShowTime.checked  = d.show.time;
+  decoShowOrig.checked  = d.show.original;
+  decoShowTrans.checked = d.show.translated;
+  decoEffect.value = d.effect;
+  decoCss.value = d.css;
+}
+
+openDecoBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  settingsDropdown.classList.add('hidden');
+  settingsBtn.classList.remove('active');
+  syncDecoUI();
+  decoModal.classList.remove('hidden');
+});
+decoClose.addEventListener('click', () => decoModal.classList.add('hidden'));
+decoModal.addEventListener('click', (e) => {
+  if (e.target === decoModal) decoModal.classList.add('hidden');
+});
+
+decoPresets.forEach(btn => {
+  btn.addEventListener('click', () => {
+    setDeco({ theme: btn.dataset.theme });
+    decoPresets.forEach(b => b.classList.toggle('active', b === btn));
+  });
+});
+decoShowUser.addEventListener('change',  () => setShow('username',   decoShowUser.checked));
+decoShowTime.addEventListener('change',  () => setShow('time',       decoShowTime.checked));
+decoShowOrig.addEventListener('change',  () => setShow('original',   decoShowOrig.checked));
+decoShowTrans.addEventListener('change', () => setShow('translated', decoShowTrans.checked));
+decoEffect.addEventListener('change', () => setDeco({ effect: decoEffect.value }));
+decoCss.addEventListener('input', () => setDeco({ css: decoCss.value }));
+
 // ===== OBSオーバーレイ =====
 copyObsBtn.addEventListener('click', (e) => {
   e.stopPropagation();
   copyOverlayUrl(copyObsBtn);
 });
 
-// URLに ?overlay=1 があればオーバーレイモードで起動（セットアップをスキップ）
+// 保存済みの装飾を反映してから、?overlay=1 ならオーバーレイ起動（URLの設定が優先）
+applyDeco();
 tryStartOverlay(startChat);

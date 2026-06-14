@@ -1,0 +1,53 @@
+/* ===== 装飾プリセット・表示要素・エフェクト ===== */
+
+/* --- 表示要素のON/OFF（html に deco-hide-* が付くと該当要素を隠す） --- */
+html.deco-hide-username .msg-username { display: none; }
+html.deco-hide-time .msg-time { display: none; }
+html.deco-hide-original .msg-original { display: none; }
+html.deco-hide-translated .msg-translated { display: none; }
+/* 名前も時刻も隠したらメタ行ごと詰める */
+html.deco-hide-username.deco-hide-time .msg-meta { display: none; }
+
+/* --- プリセット: ボックス --- */
+html.deco-theme-box .chat-msg {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 3px solid var(--purple);
+  border-radius: 6px;
+  margin: 3px 10px;
+  padding: 7px 10px;
+}
+
+/* --- プリセット: セパレーター --- */
+html.deco-theme-separator .chat-msg {
+  border-left: 3px solid var(--purple);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.18);
+  padding-left: 13px;
+}
+
+/* --- プリセット: バブル（吹き出し） --- */
+html.deco-theme-bubble .msg-original,
+html.deco-theme-bubble .msg-translated {
+  display: inline-block;
+}
+html.deco-theme-bubble .msg-translated {
+  background: rgba(145, 71, 255, 0.22);
+  border-radius: 12px;
+  padding: 5px 11px;
+  margin-top: 2px;
+}
+
+/* --- 新着エフェクト --- */
+html.deco-fx-none  .chat-msg { animation: none; }
+html.deco-fx-fade  .chat-msg { animation: fadeIn 0.25s ease; }
+html.deco-fx-slide .chat-msg { animation: decoSlideIn 0.3s ease; }
+html.deco-fx-pop   .chat-msg { animation: decoPopIn 0.3s cubic-bezier(0.5, 1.6, 0.5, 1); }
+
+@keyframes decoSlideIn {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes decoPopIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
