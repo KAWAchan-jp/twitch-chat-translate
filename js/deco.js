@@ -7,6 +7,7 @@ const DEFAULT = {
   show: { username: true, time: true, original: true, translated: true },
   effect: 'fade',        // none | fade | slide | pop
   css: '',               // カスタムCSS
+  chromaKey: '#00ff00',  // OBSクロマキー背景色
 };
 
 let deco = load();
@@ -68,6 +69,7 @@ export function applyDeco() {
   const h = document.documentElement;
   [...h.classList].forEach(c => { if (c.startsWith('deco-')) h.classList.remove(c); });
   h.classList.add('deco-theme-' + deco.theme, 'deco-fx-' + deco.effect);
+  h.style.setProperty('--chroma-key-color', deco.chromaKey || '#00ff00');
   if (!deco.show.username)   h.classList.add('deco-hide-username');
   if (!deco.show.time)       h.classList.add('deco-hide-time');
   if (!deco.show.original)   h.classList.add('deco-hide-original');

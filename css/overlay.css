@@ -3,7 +3,7 @@
 
 html.overlay-mode,
 html.overlay-mode body {
-  background: transparent !important;
+  background: var(--chroma-key-color, #00ff00) !important;
 }
 
 /* ヘッダー・翻訳中バー・送信欄を全て隠す */

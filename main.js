@@ -1,12 +1,12 @@
-import { state } from './js/state.js?v=0.8.19';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.19';
-import { scrollToBottom } from './js/chat.js?v=0.8.19';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.19';
-import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.19';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.19';
-import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.19';
-import { escapeHtml } from './js/utils.js?v=0.8.19';
-import { getDeco, setDeco, setShow, applyDeco } from './js/deco.js?v=0.8.19';
+import { state } from './js/state.js?v=0.8.20';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.20';
+import { scrollToBottom } from './js/chat.js?v=0.8.20';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.20';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.20';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.20';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.20';
+import { escapeHtml } from './js/utils.js?v=0.8.20';
+import { getDeco, setDeco, setShow, applyDeco } from './js/deco.js?v=0.8.20';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -71,6 +71,7 @@ const decoShowTime       = document.getElementById('deco-show-time');
 const decoShowOrig       = document.getElementById('deco-show-original');
 const decoShowTrans      = document.getElementById('deco-show-translated');
 const decoEffect         = document.getElementById('deco-effect');
+const decoChromaKey      = document.getElementById('deco-chroma-key');
 const decoCss            = document.getElementById('deco-css');
 
 // ===== UI言語変更 =====
@@ -258,6 +259,7 @@ function syncDecoUI() {
   decoShowOrig.checked  = d.show.original;
   decoShowTrans.checked = d.show.translated;
   decoEffect.value = d.effect;
+  decoChromaKey.value = d.chromaKey || '#00ff00';
   decoCss.value = d.css;
 }
 
@@ -284,6 +286,7 @@ decoShowTime.addEventListener('change',  () => setShow('time',       decoShowTim
 decoShowOrig.addEventListener('change',  () => setShow('original',   decoShowOrig.checked));
 decoShowTrans.addEventListener('change', () => setShow('translated', decoShowTrans.checked));
 decoEffect.addEventListener('change', () => setDeco({ effect: decoEffect.value }));
+decoChromaKey.addEventListener('input', () => setDeco({ chromaKey: decoChromaKey.value }));
 decoCss.addEventListener('input', () => setDeco({ css: decoCss.value }));
 
 // ===== OBSオーバーレイ =====

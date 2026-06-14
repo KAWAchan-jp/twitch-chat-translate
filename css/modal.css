@@ -181,6 +181,28 @@
 }
 .deco-select:focus { border-color: var(--purple); }
 
+.deco-chroma-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deco-color-input {
+  width: 44px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.deco-chroma-hint {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
 .deco-css {
   width: 100%;
   min-height: 80px;

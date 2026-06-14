@@ -10,7 +10,6 @@ html.deco-hide-username.deco-hide-time .msg-meta { display: none; }
 
 /* --- プリセット: ボックス --- */
 html.deco-theme-box .chat-msg {
-  background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-left: 3px solid var(--purple);
   border-radius: 6px;
@@ -31,7 +30,6 @@ html.deco-theme-bubble .msg-translated {
   display: inline-block;
 }
 html.deco-theme-bubble .msg-translated {
-  background: rgba(145, 71, 255, 0.45);
   border-radius: 12px;
   padding: 5px 11px;
   margin-top: 2px;
