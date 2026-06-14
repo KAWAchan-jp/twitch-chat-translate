@@ -1,9 +1,9 @@
-import { state } from './js/state.js';
-import { startChat, disconnect, showSetup } from './js/connection.js';
-import { scrollToBottom } from './js/chat.js';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js';
-import { initI18n, setUiLang, getLang } from './js/i18n.js';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js';
+import { state } from './js/state.js?v=0.8.16';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.16';
+import { scrollToBottom } from './js/chat.js?v=0.8.16';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.16';
+import { initI18n, setUiLang, getLang } from './js/i18n.js?v=0.8.16';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.16';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -43,6 +43,7 @@ const settingsBtn        = document.getElementById('settings-btn');
 const settingsDropdown   = document.getElementById('settings-dropdown');
 const showOrigCb         = document.getElementById('show-original');
 const autoScrollCb       = document.getElementById('auto-scroll');
+const hideBotsCb         = document.getElementById('hide-bots');
 const chatContainer      = document.getElementById('chat-container');
 const experimentalToggle = document.getElementById('experimental-toggle');
 const chatInputArea      = document.getElementById('chat-input-area');
@@ -128,6 +129,10 @@ document.addEventListener('click', (e) => {
 autoScrollCb.addEventListener('change', () => {
   state.autoScroll = autoScrollCb.checked;
   if (state.autoScroll) scrollToBottom();
+});
+
+hideBotsCb.addEventListener('change', () => {
+  state.hideBots = hideBotsCb.checked;
 });
 
 showOrigCb.addEventListener('change', () => {

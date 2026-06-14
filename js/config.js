@@ -8,3 +8,11 @@ export const TRANSLATE_SKIP_PATTERNS = [
   /^[!\/]/,             // コマンド (!ban, /me など)
   /^[^\p{L}\p{N}]+$/u, // 文字・数字を含まない（記号・絵文字のみ）
 ];
+
+// 除外対象の既知botアカウント（小文字で比較）
+export const BOT_USERNAMES = new Set([
+  'nightbot', 'streamelements', 'streamlabs', 'moobot', 'fossabot',
+  'wizebot', 'botisimo', 'coebot', 'phantombot', 'soundalerts',
+  'streamcord', 'commanderroot', 'pokemoncommunitygame', 'tangiabot',
+  'sery_bot', 'kofistreambot', 'streamlabsbot', 'own3d', 'blerp',
+]);

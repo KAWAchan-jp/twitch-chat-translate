@@ -6,7 +6,7 @@
   <title>Twitch Chat Translator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=0.8.15">
+  <link rel="stylesheet" href="style.css?v=0.8.16">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
     </div>
     <button id="connect-btn" class="connect-btn" data-i18n="connectBtn">接続する</button>
     <p class="note" data-i18n="note">※ APIキー不要・サーバー不要で動作します</p>
-    <p class="version">v0.8.15</p>
+    <p class="version">v0.8.16</p>
     <a href="https://github.com/KAWAchan-jp/twitch-chat-translate" target="_blank" class="repo-link">GitHub</a>
   </div>
 </div>
@@ -163,6 +163,10 @@
             <span data-i18n="autoScroll">自動スクロール</span>
           </label>
           <label class="setting-row">
+            <input type="checkbox" id="hide-bots" checked>
+            <span data-i18n="hideBots">Bot・コマンド除外</span>
+          </label>
+          <label class="setting-row">
             <input type="checkbox" id="experimental-toggle">
             <span><span data-i18n="sendFeature">送信</span> <span class="exp-badge" data-i18n="experimental">実験的</span></span>
           </label>
@@ -219,6 +223,6 @@
   </div>
 </div>
 
-<script type="module" src="main.js?v=0.8.15"></script>
+<script type="module" src="main.js?v=0.8.16"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@ export const state = {
   messageCount: 0,
   translateQueue: Promise.resolve(),
   autoScroll: true,
+  hideBots: true,
   twitchUsername: '',
   twitchToken: '',
   isAuthenticated: false,

@@ -1,5 +1,5 @@
-import { state } from './state.js';
-import { t } from './i18n.js';
+import { state } from './state.js?v=0.8.16';
+import { t } from './i18n.js?v=0.8.16';
 
 // 現在の設定からOBS用オーバーレイURLを生成
 export function buildOverlayUrl() {

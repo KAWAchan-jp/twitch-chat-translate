@@ -1,6 +1,6 @@
-@import 'css/base.css';
-@import 'css/setup.css';
-@import 'css/header.css';
-@import 'css/messages.css';
-@import 'css/send.css';
-@import 'css/overlay.css';
+@import 'css/base.css?v=0.8.16';
+@import 'css/setup.css?v=0.8.16';
+@import 'css/header.css?v=0.8.16';
+@import 'css/messages.css?v=0.8.16';
+@import 'css/send.css?v=0.8.16';
+@import 'css/overlay.css?v=0.8.16';
