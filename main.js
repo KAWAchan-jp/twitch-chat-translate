@@ -1,9 +1,11 @@
-import { state } from './js/state.js?v=0.8.16';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.16';
-import { scrollToBottom } from './js/chat.js?v=0.8.16';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.16';
-import { initI18n, setUiLang, getLang } from './js/i18n.js?v=0.8.16';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.16';
+import { state } from './js/state.js?v=0.8.17';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.8.17';
+import { scrollToBottom } from './js/chat.js?v=0.8.17';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.8.17';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.8.17';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.8.17';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.8.17';
+import { escapeHtml } from './js/utils.js?v=0.8.17';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -54,6 +56,12 @@ const messageInput       = document.getElementById('message-input');
 const sendBtn            = document.getElementById('send-btn');
 const logoutBtn          = document.getElementById('logout-btn');
 const copyObsBtn         = document.getElementById('copy-obs-url');
+const openBlocklistBtn   = document.getElementById('open-blocklist');
+const blocklistModal     = document.getElementById('blocklist-modal');
+const blocklistClose     = document.getElementById('blocklist-close');
+const blocklistInput     = document.getElementById('blocklist-input');
+const blocklistAddBtn    = document.getElementById('blocklist-add');
+const blocklistItems     = document.getElementById('blocklist-items');
 
 // ===== UI言語変更 =====
 function onUiLangChange(lang) {
@@ -190,6 +198,51 @@ logoutBtn.addEventListener('click', () => {
 sendBtn.addEventListener('click', () => sendUserMessage());
 messageInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') sendUserMessage();
+});
+
+// ===== 除外ユーザー管理 =====
+function renderBlocklist() {
+  const users = getBlockedUsers();
+  if (!users.length) {
+    blocklistItems.innerHTML = `<div class="blocklist-empty">${t('blocklistEmpty')}</div>`;
+    return;
+  }
+  blocklistItems.innerHTML = users.map(u =>
+    `<div class="blocklist-item"><span>${escapeHtml(u)}</span>` +
+    `<button class="blocklist-remove" data-user="${escapeHtml(u)}" aria-label="remove">×</button></div>`
+  ).join('');
+}
+
+function addFromInput() {
+  const added = addBlockedUser(blocklistInput.value);
+  if (added) { blocklistInput.value = ''; renderBlocklist(); }
+  blocklistInput.focus();
+}
+
+openBlocklistBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  settingsDropdown.classList.add('hidden');
+  settingsBtn.classList.remove('active');
+  renderBlocklist();
+  blocklistModal.classList.remove('hidden');
+  blocklistInput.focus();
+});
+
+blocklistClose.addEventListener('click', () => blocklistModal.classList.add('hidden'));
+blocklistModal.addEventListener('click', (e) => {
+  if (e.target === blocklistModal) blocklistModal.classList.add('hidden');
+});
+
+blocklistAddBtn.addEventListener('click', addFromInput);
+blocklistInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') addFromInput();
+});
+
+blocklistItems.addEventListener('click', (e) => {
+  const btn = e.target.closest('.blocklist-remove');
+  if (!btn) return;
+  removeBlockedUser(btn.dataset.user);
+  renderBlocklist();
 });
 
 // ===== OBSオーバーレイ =====
