@@ -72,7 +72,7 @@ Click **Appearance** in the settings panel to customize the chat display.
 
 | Item | Description |
 |------|-------------|
-| Preset | Plain / Box / Separator / Bubble / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
+| Preset | Plain / Box / Separator / Bubble / Speech / Speech2 / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
 | Show elements | Show or hide the name, time, original text, and translation |
 | Effect | Choose the animation used when a new message appears |
 | Background color | Set a shared message background color for every preset |

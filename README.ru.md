@@ -72,7 +72,7 @@
 
 | Элемент | Описание |
 |---------|----------|
-| Пресет | Plain / Box / Separator / Bubble / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
+| Пресет | Plain / Box / Separator / Bubble / Speech / Speech2 / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
 | Показывать элементы | Показать или скрыть имя, время, оригинал и перевод |
 | Эффект | Выбрать анимацию появления нового сообщения |
 | Цвет фона | Задать общий фон сообщений для всех пресетов |

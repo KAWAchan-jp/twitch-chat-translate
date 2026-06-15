@@ -1,12 +1,12 @@
-import { state } from './js/state.js?v=0.9.9';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.9.9';
-import { resumeAutoScroll, scrollToBottom, updateScrollResume } from './js/chat.js?v=0.9.9';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.9.9';
-import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.9.9';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.9.9';
-import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.9.9';
-import { escapeHtml } from './js/utils.js?v=0.9.9';
-import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './js/deco.js?v=0.9.9';
+import { state } from './js/state.js?v=0.9.10';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.9.10';
+import { resumeAutoScroll, scrollToBottom, updateScrollResume } from './js/chat.js?v=0.9.10';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.9.10';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.9.10';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.9.10';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.9.10';
+import { escapeHtml } from './js/utils.js?v=0.9.10';
+import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './js/deco.js?v=0.9.10';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
