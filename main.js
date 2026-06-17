@@ -1,12 +1,12 @@
-import { state } from './js/state.js?v=0.9.10';
-import { startChat, disconnect, showSetup } from './js/connection.js?v=0.9.10';
-import { resumeAutoScroll, scrollToBottom, updateScrollResume } from './js/chat.js?v=0.9.10';
-import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.9.10';
-import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.9.10';
-import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.9.10';
-import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.9.10';
-import { escapeHtml } from './js/utils.js?v=0.9.10';
-import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './js/deco.js?v=0.9.10';
+import { state } from './js/state.js?v=0.9.13';
+import { startChat, disconnect, showSetup } from './js/connection.js?v=0.9.13';
+import { resumeAutoScroll, scrollToBottom, updateScrollResume } from './js/chat.js?v=0.9.13';
+import { startTwitchLogin, handleOAuthToken, updateSendPlaceholder, sendUserMessage } from './js/auth.js?v=0.9.13';
+import { initI18n, setUiLang, getLang, t } from './js/i18n.js?v=0.9.13';
+import { tryStartOverlay, copyOverlayUrl } from './js/overlay.js?v=0.9.13';
+import { getBlockedUsers, addBlockedUser, removeBlockedUser } from './js/filter.js?v=0.9.13';
+import { escapeHtml } from './js/utils.js?v=0.9.13';
+import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './js/deco.js?v=0.9.13';
 
 // OAuthポップアップのコールバック検出（ポップアップ側で実行される）
 {
@@ -32,7 +32,37 @@ import { getDeco, setDeco, setShow, syncDefaultCssLanguage, applyDeco } from './
 // i18n初期化（ブラウザ言語またはlocalStorageから復元）
 initI18n();
 
+// ===== 国旗アイコン =====
+const LANG_FLAGS = {
+  ja: 'jp', en: 'us', ko: 'kr', 'zh-CN': 'cn', 'zh-TW': 'tw',
+  es: 'es', fr: 'fr', de: 'de', pt: 'br', ru: 'ru', id: 'id',
+  ar: 'sa', hi: 'in', th: 'th', vi: 'vn',
+};
+
+function updateFlag(flagEl, lang) {
+  if (!flagEl) return;
+  const code = LANG_FLAGS[lang];
+  flagEl.className = 'fi flag-icon' + (flagEl.classList.contains('flag-icon-sm') ? ' flag-icon-sm' : '');
+  if (code) {
+    flagEl.classList.add('fi-' + code);
+    flagEl.style.visibility = '';
+  } else {
+    flagEl.style.visibility = 'hidden';
+  }
+}
+
+function bindFlag(selectEl, flagEl) {
+  updateFlag(flagEl, selectEl.value);
+  selectEl.addEventListener('change', () => updateFlag(flagEl, selectEl.value));
+}
+
 // ===== DOM =====
+const flagUiLang         = document.getElementById('flag-ui-lang');
+const flagSrcLang        = document.getElementById('flag-src-lang');
+const flagTgtLang        = document.getElementById('flag-tgt-lang');
+const flagHeaderSrc      = document.getElementById('flag-header-src');
+const flagHeaderTgt      = document.getElementById('flag-header-tgt');
+const flagUiLangChat     = document.getElementById('flag-ui-lang-chat');
 const channelInput       = document.getElementById('channel-input');
 const langSelect         = document.getElementById('lang-select');
 const targetLangSelect   = document.getElementById('target-lang-select');
@@ -84,6 +114,18 @@ const decoExpireSeconds  = document.getElementById('deco-expire-seconds');
 const decoChromaKey      = document.getElementById('deco-chroma-key');
 const decoCss            = document.getElementById('deco-css');
 
+// 国旗アイコン初期化
+{
+  const uiLangSel     = document.getElementById('ui-lang-select');
+  const uiLangChatSel = document.getElementById('ui-lang-select-chat');
+  if (uiLangSel)      bindFlag(uiLangSel, flagUiLang);
+  if (uiLangChatSel)  bindFlag(uiLangChatSel, flagUiLangChat);
+  bindFlag(document.getElementById('lang-select'),        flagSrcLang);
+  bindFlag(document.getElementById('target-lang-select'), flagTgtLang);
+  bindFlag(document.getElementById('header-src-lang'),    flagHeaderSrc);
+  bindFlag(document.getElementById('header-tgt-lang'),    flagHeaderTgt);
+}
+
 // ===== UI言語変更 =====
 function onUiLangChange(lang) {
   setUiLang(lang);
@@ -92,13 +134,18 @@ function onUiLangChange(lang) {
   const hasOption = [...targetLangSelect.options].some(o => o.value === lang);
   if (hasOption) {
     targetLangSelect.value = lang;
+    updateFlag(flagTgtLang, lang);
     state.targetLang = lang;
   }
   const hasHeaderOption = [...headerTgtLang.options].some(o => o.value === lang);
   if (hasHeaderOption) {
     headerTgtLang.value = lang;
+    updateFlag(flagHeaderTgt, lang);
     state.targetLang = lang;
   }
+  // UI言語セレクトの両方の国旗を更新
+  updateFlag(flagUiLang, lang);
+  updateFlag(flagUiLangChat, lang);
   updateSendPlaceholder();
 }
 
@@ -115,6 +162,8 @@ connectBtn.addEventListener('click', () => {
   state.targetLang = targetLangSelect.value;
   headerSrcLang.value = state.sourceLang;
   headerTgtLang.value = state.targetLang;
+  updateFlag(flagHeaderSrc, state.sourceLang);
+  updateFlag(flagHeaderTgt, state.targetLang);
   startChat();
 });
 

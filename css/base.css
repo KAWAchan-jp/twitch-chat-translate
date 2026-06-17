@@ -31,3 +31,32 @@ html, body {
 }
 
 .hidden { display: none !important; }
+
+/* ===== 国旗アイコン付きセレクト ===== */
+.flag-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+/* .input-group select の width:100% を上書き */
+.flag-select-wrap select {
+  flex: 1;
+  width: auto !important;
+  min-width: 0;
+}
+
+.flag-icon {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background-size: cover;
+}
+
+/* ヘッダー・ドロップダウン内の小サイズ */
+.flag-icon-sm {
+  width: 16px;
+  height: 12px;
+}
