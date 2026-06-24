@@ -1,0 +1,5 @@
+CLAUDE.md
+HANDOVER.md
+.claude/
+.agents/
+.gitignore
