@@ -17,9 +17,11 @@ A web app that translates and displays Twitch chat in real time.
 - **Multilingual support** - Supports 15+ languages
 - **Emote detection** - Automatically collapses repeated emote spam
 - **Font and size controls** - Adjust the chat display for readability
+- **UI language switching** - Change the interface language from the setup or chat screen
 - **OBS overlay** - Display decorated chat as an OBS browser source
-- **Appearance controls** - Adjust presets, colors, spacing, lifetime, and effects
+- **Appearance controls** - Adjust presets, shown elements, colors, spacing, lifetime, and effects
 - **Custom CSS** - Fine-tune the chat display with your own CSS
+- **Blocked user management** - Add or remove users you do not want to display
 - **Chat sending (experimental)** - Log in with Twitch and send translated chat messages
 
 ---
@@ -46,7 +48,7 @@ After connecting, you can change settings from the header.
 |------|-------------|
 | `Auto → Japanese` | Switch the source and target languages in real time |
 | `S / M / L / XL` | Change the chat font size |
-| `⚙` | Open the advanced settings panel |
+| `⚙` | Open auto scroll, bot filtering, sending, font, UI language, appearance, and related settings |
 | `Disconnect` | Disconnect from the channel and return to the top screen |
 
 ### 3. Settings panel
@@ -56,13 +58,13 @@ Click the **⚙ icon** in the header to open the settings panel.
 | Setting | Description |
 |---------|-------------|
 | Auto scroll | Automatically scroll down when new messages arrive |
-| Hide bots & commands | Exclude bot messages and commands from the chat display |
-| Send [experimental] | Show the chat sending panel. Twitch login is required |
-| Font | Switch between sans-serif, serif, and monospace fonts |
-| UI language | Change the interface language |
-| Appearance | Change chat presets, colors, spacing, and effects |
+| Hide bots & commands | Exclude bot messages and `!command` style comments from the chat display |
+| Send [experimental] | Show the Twitch login chat sending panel |
+| Font | Switch between Gothic / Serif / Mono |
+| UI language | Change the interface language for the setup and chat screens |
+| Appearance | Change presets, shown elements, colors, effects, disappearing time, and custom CSS |
 | Manage blocked users | Add or remove users that should not be displayed |
-| Copy OBS URL | Copy an OBS browser source URL containing the current appearance settings |
+| Copy OBS URL | Copy an OBS browser source URL containing the current font and appearance settings |
 
 ---
 
@@ -70,20 +72,22 @@ Click the **⚙ icon** in the header to open the settings panel.
 
 Click **Appearance** in the settings panel to customize the chat display.
 
+![Appearance settings](docs/images/screenshot-appearance.png)
+
 | Item | Description |
 |------|-------------|
 | Preset | Plain / Box / Separator / Bubble / Speech / Speech2 / Glass / Neon / Compact / Terminal / Minimal / Card / Broadcast / Pastel |
 | Show elements | Show or hide the name, time, original text, and translation |
-| Effect | Choose the animation used when a new message appears |
+| Effect | Choose the new-message animation from Fade / Slide / Pop / Rise / Drop / Glow / Flip / Blur / Bounce / Wipe / Flash |
 | Background color | Set a shared message background color for every preset |
 | Text colors | Change translation, original text, and name colors separately |
 | Restore preset colors | Restore the selected preset's default colors |
-| Message spacing | Adjust the space between messages |
+| Message spacing | Use the slider to adjust the space between messages |
 | Disappear after time | Remove messages after a chosen delay using Fade / Slide / Shrink / Blur / Wipe / Drop / Flip / Collapse |
 | Chroma key color | Set the background color removed by OBS chroma key |
-| Custom CSS | Directly edit CSS for detailed customization |
+| Custom CSS | Directly edit CSS for customization beyond the presets |
 
-Settings are saved automatically in the browser. Custom CSS is also saved and applied as you type, so no save button is required.
+Settings are saved automatically in the browser. Presets, shown elements, colors, spacing, disappearing time, chroma key color, and custom CSS are saved and applied as you type, so no save button is required.
 
 ### Display in OBS
 

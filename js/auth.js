@@ -1,9 +1,9 @@
-﻿import { TWITCH_CLIENT_ID, TWITCH_REDIRECT_URI } from './config.js?v=0.9.15';
-import { state } from './state.js?v=0.9.15';
-import { addSystemMessage } from './chat.js?v=0.9.15';
-import { disconnect, startChat } from './connection.js?v=0.9.15';
-import { translateText } from './translate.js?v=0.9.15';
-import { t } from './i18n.js?v=0.9.15';
+﻿import { TWITCH_CLIENT_ID, TWITCH_REDIRECT_URI } from './config.js?v=0.9.17';
+import { state } from './state.js?v=0.9.17';
+import { addSystemMessage } from './chat.js?v=0.9.17';
+import { disconnect, startChat } from './connection.js?v=0.9.17';
+import { translateText } from './translate.js?v=0.9.17';
+import { t } from './i18n.js?v=0.9.17';
 
 const authPanel    = document.getElementById('auth-panel');
 const sendPanel    = document.getElementById('send-panel');
