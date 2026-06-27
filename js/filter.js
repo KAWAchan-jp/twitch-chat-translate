@@ -1,4 +1,4 @@
-﻿import { BOT_USERNAMES } from './config.js?v=0.9.14';
+﻿import { BOT_USERNAMES } from './config.js?v=0.9.15';
 
 const STORAGE_KEY = 'blocked_users';
 
